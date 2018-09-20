@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -31,6 +32,7 @@ public class BuscadorArchivos extends JFrame {
 	private JCheckBox chckbxOcultos;
 	private JCheckBox chckbxIncluirSubcarpetas;
 	private File file;
+	private JButton btnBuscar;
 
 	/**
 	 * Launch the application.
@@ -68,6 +70,7 @@ public class BuscadorArchivos extends JFrame {
 				if (opcion == JFileChooser.APPROVE_OPTION) {
 					file = jfc.getSelectedFile();
 					pathText.setText(file.getAbsolutePath());
+					btnBuscar.setEnabled(true);
 				}
 
 			}
@@ -109,7 +112,8 @@ public class BuscadorArchivos extends JFrame {
 		chckbxIncluirSubcarpetas.setBounds(331, 87, 248, 18);
 		contentPane.add(chckbxIncluirSubcarpetas);
 
-		JButton btnBuscar = new JButton("BUSCAR");
+		btnBuscar = new JButton("BUSCAR");
+		btnBuscar.setEnabled(false);
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textField.getText().matches("[0-9]+")) {
@@ -118,11 +122,18 @@ public class BuscadorArchivos extends JFrame {
 						mayorOMenor = '+';
 					else
 						mayorOMenor = '-';
-					ArrayList<File> encuentros = buscarArchivosPorTamanio(file, Integer.parseInt(textArea.getText()),
-							mayorOMenor, chckbxOcultos, chckbxIncluirSubcarpetas);
-					String texto = "";
-					for(File f : encuentros) {
-						texto += f.getPath() + "(" + f. + " bytes)";
+					try {
+						int tamanio = Integer.parseInt(textField.getText());
+						ArrayList<File> encuentros = buscarArchivosPorTamanio(file, tamanio, mayorOMenor,
+								chckbxOcultos.isSelected(), chckbxIncluirSubcarpetas.isSelected());
+						String texto = "";
+						for (File f : encuentros) {
+							texto += f.getPath() + "(" + f.length() + " bytes)\n";
+						}
+						textArea.setText(texto);
+					} catch (NumberFormatException nbe) {
+						JOptionPane.showMessageDialog(null,
+								"Tamaño no válido\n\n\n" + nbe.getClass() + " " + nbe.getMessage());
 					}
 				}
 			}
@@ -139,10 +150,26 @@ public class BuscadorArchivos extends JFrame {
 		textArea.setEditable(false);
 	}
 
-	protected ArrayList<File> buscarArchivosPorTamanio(File file2, int parseInt, char mayorOMenor,
-			JCheckBox chckbxOcultos2, JCheckBox chckbxIncluirSubcarpetas2) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ArrayList<File> buscarArchivosPorTamanio(File carpetaDondeBuscar, int tamEnBytes, char criterio,
+			boolean incluirOcultos, boolean incluirSubcarpetas) {
+		if (!carpetaDondeBuscar.isDirectory())
+			return null;
+		ArrayList<File> resul = new ArrayList<>();
+		for (File f : carpetaDondeBuscar.listFiles()) {
+			if (f.isFile()) {
+				if ((f.isHidden() && incluirOcultos) || (!f.isHidden())) {
+					if (criterio == '+') {
+						if (f.length() > tamEnBytes)
+							resul.add(f);
+					} else if (f.length() < tamEnBytes)
+						resul.add(f);
+				}
+			} else {
+				if ((f.isDirectory() && incluirSubcarpetas) && ((f.isHidden() && incluirOcultos) || (!f.isHidden())))
+					resul.addAll(buscarArchivosPorTamanio(f, tamEnBytes, criterio, incluirOcultos, incluirSubcarpetas));
+			}
+		}
+		return resul;
 	}
 
 	public JTextArea getTextArea() {
@@ -167,5 +194,9 @@ public class BuscadorArchivos extends JFrame {
 
 	public JCheckBox getChckbxIncluirSubcarpetas() {
 		return chckbxIncluirSubcarpetas;
+	}
+
+	public JButton getBtnBuscar() {
+		return btnBuscar;
 	}
 }
