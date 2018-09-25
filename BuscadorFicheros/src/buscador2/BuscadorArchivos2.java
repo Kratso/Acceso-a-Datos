@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import utilidades.Utilidades;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -126,7 +129,7 @@ public class BuscadorArchivos2 extends JFrame {
 				boolean antesDe = rdbtnMayor.isSelected();
 				try {
 					fecha = sdf.parse(textField.getText()).getTime();
-					ArrayList<File> encuentros = buscarArchivosPorFechaModif(file, fecha, antesDe,
+					ArrayList<File> encuentros = Utilidades.buscarArchivosPorFechaModif(file, fecha, antesDe,
 							chckbxOcultos.isSelected(), chckbxIncluirSubcarpetas.isSelected());
 					String texto = "";
 					for (File f : encuentros) {
@@ -153,28 +156,7 @@ public class BuscadorArchivos2 extends JFrame {
 		textArea.setEditable(false);
 	}
 
-	protected ArrayList<File> buscarArchivosPorFechaModif(File carpetaDondeBuscar, long fecha, boolean antesDE,
-			boolean incluirOcultos, boolean incluirSubcarpetas) {
-		if (!carpetaDondeBuscar.isDirectory())
-			return null;
-		Date date = new Date(fecha);
-		ArrayList<File> resul = new ArrayList<>();
-		for (File f : carpetaDondeBuscar.listFiles()) {
-			if (f.isFile()) {
-				if ((f.isHidden() && incluirOcultos) || (!f.isHidden())) {
-					if (antesDE && (date.compareTo(new Date(f.lastModified())) > 0))
-						resul.add(f);
-					else if (!antesDE && (date.compareTo(new Date(f.lastModified())) < 0))
-						resul.add(f);
-
-				}
-			} else {
-				if ((f.isDirectory() && incluirSubcarpetas) && ((f.isHidden() && incluirOcultos) || (!f.isHidden())))
-					resul.addAll(buscarArchivosPorFechaModif(f, fecha, antesDE, incluirOcultos, incluirSubcarpetas));
-			}
-		}
-		return resul;
-	}
+	
 
 	public JTextArea getTextArea() {
 		return textArea;

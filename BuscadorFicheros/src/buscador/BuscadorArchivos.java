@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import utilidades.Utilidades;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -124,7 +127,7 @@ public class BuscadorArchivos extends JFrame {
 						mayorOMenor = '-';
 					try {
 						int tamanio = Integer.parseInt(textField.getText());
-						ArrayList<File> encuentros = buscarArchivosPorTamanio(file, tamanio, mayorOMenor,
+						ArrayList<File> encuentros = Utilidades.buscarArchivosPorTamanio(file, tamanio, mayorOMenor,
 								chckbxOcultos.isSelected(), chckbxIncluirSubcarpetas.isSelected());
 						String texto = "";
 						for (File f : encuentros) {
@@ -150,27 +153,6 @@ public class BuscadorArchivos extends JFrame {
 		textArea.setEditable(false);
 	}
 
-	protected ArrayList<File> buscarArchivosPorTamanio(File carpetaDondeBuscar, int tamEnBytes, char criterio,
-			boolean incluirOcultos, boolean incluirSubcarpetas) {
-		if (!carpetaDondeBuscar.isDirectory())
-			return null;
-		ArrayList<File> resul = new ArrayList<>();
-		for (File f : carpetaDondeBuscar.listFiles()) {
-			if (f.isFile()) {
-				if ((f.isHidden() && incluirOcultos) || (!f.isHidden())) {
-					if (criterio == '+') {
-						if (f.length() > tamEnBytes)
-							resul.add(f);
-					} else if (f.length() < tamEnBytes)
-						resul.add(f);
-				}
-			} else {
-				if ((f.isDirectory() && incluirSubcarpetas) && ((f.isHidden() && incluirOcultos) || (!f.isHidden())))
-					resul.addAll(buscarArchivosPorTamanio(f, tamEnBytes, criterio, incluirOcultos, incluirSubcarpetas));
-			}
-		}
-		return resul;
-	}
 
 	public JTextArea getTextArea() {
 		return textArea;

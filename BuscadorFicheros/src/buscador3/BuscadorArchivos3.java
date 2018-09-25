@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import utilidades.Utilidades;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -109,7 +112,7 @@ public class BuscadorArchivos3 extends JFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-				ArrayList<File> encuentros = buscarArchivosPorNombre(file, textField.getText(),
+				ArrayList<File> encuentros = Utilidades.buscarArchivosPorNombre(file, textField.getText(),
 						chckbxOcultos.isSelected(), chckbxIncluirSubcarpetas.isSelected());
 				String texto = "";
 				for (File f : encuentros) {
@@ -135,24 +138,6 @@ public class BuscadorArchivos3 extends JFrame {
 		textArea.setEditable(false);
 	}
 
-	ArrayList<File> buscarArchivosPorNombre(File carpetaDondeBuscar, String patronNombre, boolean incluirOcultos,
-			boolean incluirSubcarpetas) {
-		if (!carpetaDondeBuscar.isDirectory())
-			return null;
-		ArrayList<File> resul = new ArrayList<>();
-		for (File f : carpetaDondeBuscar.listFiles()) {
-			if (f.isFile()) {
-				if ((f.isHidden() && incluirOcultos) || (!f.isHidden())) {
-					if(f.getName().matches(patronNombre))
-						resul.add(f);
-				}
-			} else {
-				if ((f.isDirectory() && incluirSubcarpetas) && ((f.isHidden() && incluirOcultos) || (!f.isHidden())))
-					resul.addAll(buscarArchivosPorNombre(f, patronNombre, incluirOcultos, incluirSubcarpetas));
-			}
-		}
-		return resul;
-	}
 
 	public JTextArea getTextArea() {
 		return textArea;
