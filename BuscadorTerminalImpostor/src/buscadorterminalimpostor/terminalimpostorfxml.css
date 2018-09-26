@@ -1,0 +1,14 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -text-area  .text {
+    -fx-text-fill: #1ec503;
+    }
+    
+    .text-input {
+    -fx-text-fill: #1ec503;
+    -fx-prompt-fill: #1ec503;
+}
+}
