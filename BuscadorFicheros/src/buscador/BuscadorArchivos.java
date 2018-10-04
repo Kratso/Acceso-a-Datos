@@ -72,8 +72,13 @@ public class BuscadorArchivos extends JFrame {
 				int opcion = jfc.showOpenDialog(null);
 				if (opcion == JFileChooser.APPROVE_OPTION) {
 					file = jfc.getSelectedFile();
-					pathText.setText(file.getAbsolutePath());
-					btnBuscar.setEnabled(true);
+					if (file.isDirectory()) {
+						pathText.setText(file.getAbsolutePath());
+						btnBuscar.setEnabled(true);
+					} else {
+						Utilidades.MostrarMensajeError(null, "Error al elegir archivo", null,
+								"No ha elegido un directorio válido");
+					}
 				}
 
 			}
@@ -152,7 +157,6 @@ public class BuscadorArchivos extends JFrame {
 		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
 	}
-
 
 	public JTextArea getTextArea() {
 		return textArea;

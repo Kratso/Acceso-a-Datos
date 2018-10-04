@@ -1,8 +1,11 @@
 package utilidades;
 
+import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+
+import javax.swing.JOptionPane;
 
 public final class Utilidades {
 
@@ -36,7 +39,7 @@ public final class Utilidades {
 
 		for (int i = 0; i < lista.length; i++) {
 			boolean incluir = !lista[i].isHidden() || lista[i].isHidden() && incluirOcultos;// Ignoramos carpetas y
-																							// ficheros ocultos
+			// ficheros ocultos
 			if (incluir) {
 				if (lista[i].isFile()) {
 					if (mayores && lista[i].length() >= tamEnBytes || !mayores && lista[i].length() <= tamEnBytes)
@@ -95,6 +98,16 @@ public final class Utilidades {
 			}
 		}
 		return resul;
+	}
+
+	public static void MostrarMensajeError(Component contexto, String titulo, Exception excepcion, String mensaje) {
+		if (excepcion != null)
+			JOptionPane.showMessageDialog(contexto, titulo,
+					mensaje + "\n___________________________\n" + excepcion.getClass() + " " + excepcion.getMessage(),
+					JOptionPane.ERROR_MESSAGE);
+		else
+			JOptionPane.showMessageDialog(contexto, titulo, mensaje, JOptionPane.ERROR_MESSAGE);
+
 	}
 
 }
