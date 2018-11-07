@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<menu_desayunos>
+<desayuno id="1">
+ <nombre>Belgian Waffles</nombre>
+ <precio moneda="euro">5.95</precio>
+ 
+ <calorias>650</calorias>
+</desayuno>
+<desayuno id="2">
+ <nombre>Strawberry Belgian Waffles</nombre>
+ <precio moneda="euro">9,14</precio>
+ 
+ <calorias>900</calorias>
+</desayuno>
+<desayuno id="3">
+ <nombre>Pan y agua</nombre>
+ <precio moneda="euro">0,03</precio>
+ 
+ <calorias>75</calorias>
+</desayuno>
+<desayuno id="4">
+ <nombre>Homestyle Breakfast</nombre>
+ <precio moneda="euro">6,21</precio>
+ 
+ <calorias>950</calorias>
+</desayuno>
+<totalcalorias>2575</totalcalorias>
+</menu_desayunos>

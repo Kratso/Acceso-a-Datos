@@ -1,0 +1,37 @@
+<personas>
+  <persona>
+    <edad>20</edad>
+    <nombre>Julio Perez</nombre>
+    <trabajo>
+      <tipo>1</tipo>
+      <descripcion>Albanil</descripcion>
+    </trabajo>
+    <trabajo>
+      <tipo>1</tipo>
+      <descripcion>Encofrador</descripcion>
+    </trabajo>
+    <sexo>M</sexo>
+  </persona>
+  <persona>
+    <edad>21</edad>
+    <nombre>Ana Gutierrez</nombre>
+    <trabajo>
+      <tipo>2</tipo>
+      <descripcion>Ingeniero</descripcion>
+    </trabajo>
+    <sexo>F</sexo>
+  </persona>
+  <persona>
+    <edad>84</edad>
+    <nombre>Emilia Rivilla</nombre>
+    <trabajo>
+      <tipo>2</tipo>
+      <descripcion>Profesora</descripcion>
+    </trabajo>
+    <trabajo>
+      <tipo>3</tipo>
+      <descripcion>Locutora de radio</descripcion>
+    </trabajo>
+    <sexo>F</sexo>
+  </persona>
+</personas>
