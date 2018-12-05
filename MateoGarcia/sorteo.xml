@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<sorteo nombre="navidad" anio="2018">
+	<premios moneda="euros">
+		<premio tipo="1">
+			<descripcion>El Gordo</descripcion>
+			<cantidad>4000000</cantidad>
+			<bolasExtraidas>1</bolasExtraidas>
+		</premio>
+		<premio tipo="2">
+			<descripcion>Segundo Premio</descripcion>
+			<cantidad>1250000</cantidad>
+			<bolasExtraidas>1</bolasExtraidas>
+		</premio>
+		<premio tipo="3">
+			<descripcion>Tercer Premio</descripcion>
+			<cantidad>500000</cantidad>
+			<bolasExtraidas>1</bolasExtraidas>
+		</premio>
+		<premio tipo="4">
+			<descripcion>Cuarto Premio</descripcion>
+			<cantidad>200000</cantidad>
+			<bolasExtraidas>2</bolasExtraidas>
+		</premio>
+		<premio tipo="5">
+			<descripcion>Quinto Premio</descripcion>
+			<cantidad>60000</cantidad>
+			<bolasExtraidas>8</bolasExtraidas>
+		</premio>
+		<premio tipo="6">
+			<descripcion>Pedrea</descripcion>
+			<cantidad>1000</cantidad>
+			<bolasExtraidas>87</bolasExtraidas>
+		</premio>
+		<premio tipo="7">
+			<descripcion>Numero anterior o posterior al primer premio</descripcion>
+			<cantidad>20000</cantidad>
+		</premio>
+		<premio tipo="8">
+			<descripcion>Numero anterior o posterior al segundo premio</descripcion>
+			<cantidad>12500</cantidad>
+		</premio>
+		<premio tipo="9">
+			<descripcion>Dos ultimas cifras del primer premio</descripcion>
+			<cantidad>1000</cantidad>
+		</premio>
+		<premio tipo="10">
+			<descripcion>Dos ultimas cifras del segundo premio</descripcion>
+			<cantidad>1000</cantidad>
+		</premio>
+		<premio tipo="11">
+			<descripcion>Reintegro:ultima cifra del primer premio</descripcion>
+			<cantidad>200</cantidad>
+		</premio>
+	</premios>
+</sorteo>
