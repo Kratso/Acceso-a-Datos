@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<comprobados sorteo="navidad2018">
+   <numeros>
+      <numero premio="NO" valor="555"/>
+   <numero premio="SI" valor="79428">
+         <descripcion>El Gordo</descripcion>
+         <cantidad>4000000</cantidad>
+      </numero>
+      <numero premio="SI" valor="79429">
+         <descripcion>Numero anterior o posterior al primer premio</descripcion>
+         <cantidad>20000</cantidad>
+      </numero>
+      <numero premio="SI" valor="79427">
+         <descripcion>Numero anterior o posterior al primer premio</descripcion>
+         <cantidad>20000</cantidad>
+      </numero>
+      <numero premio="SI" valor="55528">
+         <descripcion>Dos ultimas cifras del primer premio</descripcion>
+         <cantidad>1000</cantidad>
+      </numero>
+      <numero premio="SI" valor="55558">
+         <descripcion>Reintegro:ultima cifra del primer premio</descripcion>
+         <cantidad>200</cantidad>
+      </numero>
+      <numero premio="SI" valor="290">
+         <descripcion>Pedrea</descripcion>
+         <cantidad>1000</cantidad>
+      </numero>
+      <numero premio="NO" valor="291"/>
+      <numero premio="SI" valor="71734">
+         <descripcion>Segundo Premio</descripcion>
+         <cantidad>1250000</cantidad>
+      </numero>
+      <numero premio="SI" valor="71735">
+         <descripcion>Numero anterior o posterior al segundo premio</descripcion>
+         <cantidad>12500</cantidad>
+      </numero>
+      <numero premio="SI" valor="71733">
+         <descripcion>Numero anterior o posterior al segundo premio</descripcion>
+         <cantidad>12500</cantidad>
+      </numero>
+   </numeros>
+</comprobados>
