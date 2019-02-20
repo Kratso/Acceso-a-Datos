@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22-ene-2019 13:56:56 by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="bancohibernate.Sucursal" table="sucursal" catalog="banco">
+        <id name="idsucursal" type="java.lang.Integer">
+            <column name="idsucursal" />
+            <generator class="identity" />
+        </id>
+        <property name="direccion" type="string">
+            <column name="direccion" length="100" />
+        </property>
+        <property name="cp" type="string">
+            <column name="cp" length="5" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -11,7 +11,7 @@ public class Prueba {
 	public static void main(String[] args) {
 		SessionFactory sessionFactory;
 		Configuration configuration = new Configuration();
-		configuration.configure();
+		configuration.configure("unidad2/hibernate.cfg.xml");
 		ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
 		sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 		

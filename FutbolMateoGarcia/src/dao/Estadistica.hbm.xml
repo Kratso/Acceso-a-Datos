@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-ene-2019 8:52:33 by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="dao.Estadistica" table="estadistica" catalog="competicionesFutbol">
+        <composite-id name="id" class="dao.EstadisticaId">
+            <key-property name="idPartido" type="int">
+                <column name="idPartido" />
+            </key-property>
+            <key-property name="licencia" type="int">
+                <column name="licencia" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="jugador" class="dao.Jugador" update="false" insert="false" fetch="select">
+            <column name="licencia" not-null="true" />
+        </many-to-one>
+        <many-to-one name="partido" class="dao.Partido" update="false" insert="false" fetch="select">
+            <column name="idPartido" not-null="true" />
+        </many-to-one>
+        <property name="goles" type="int">
+            <column name="goles" not-null="true" />
+        </property>
+        <property name="faltas" type="int">
+            <column name="faltas" not-null="true" />
+        </property>
+        <property name="tarjAmarillas" type="int">
+            <column name="tarjAmarillas" not-null="true" />
+        </property>
+        <property name="tarjRojas" type="int">
+            <column name="tarjRojas" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
