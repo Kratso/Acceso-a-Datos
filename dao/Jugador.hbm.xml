@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-ene-2019 8:52:33 by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="dao.Jugador" table="jugador" catalog="competicionesFutbol">
+        <id name="licencia" type="int">
+            <column name="licencia" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="equipo" class="dao.Equipo" fetch="select">
+            <column name="idEquipo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="posicion" class="dao.Posicion" fetch="select">
+            <column name="idPosicion" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" not-null="true" />
+        </property>
+        <property name="dorsal" type="int">
+            <column name="dorsal" not-null="true" />
+        </property>
+        <set name="estadisticas" table="estadistica" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="licencia" not-null="true" />
+            </key>
+            <one-to-many class="dao.Estadistica" />
+        </set>
+    </class>
+</hibernate-mapping>
