@@ -83,5 +83,9 @@ public class Jugador implements java.io.Serializable {
 	public void setEstadisticas(Set estadisticas) {
 		this.estadisticas = estadisticas;
 	}
+	@Override
+	public String toString() {
+		return this.getNombre();
+	}
 
 }

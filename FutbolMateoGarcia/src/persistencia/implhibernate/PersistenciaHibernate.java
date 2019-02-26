@@ -24,7 +24,6 @@ import persistencia.abs.PersistenciaGeneral;
 
 @SuppressWarnings("all")
 public class PersistenciaHibernate implements PersistenciaGeneral {
-	
 	Session session;
 	
 	public PersistenciaHibernate(String configureFile) {
@@ -36,6 +35,7 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 				.buildServiceRegistry();
 		sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 		session = sessionFactory.openSession();
+	
 	}
 	
 	@Override
@@ -77,12 +77,12 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 	}
 	
 	@Override
-	public Competicion getCompeticionById(int id) {
+	public Competicion getCompeticionById(int id)  throws SQLException{
 		return (Competicion) session.get(Competicion.class, id);
 	}
 	
 	@Override
-	public List<Competicion> getCompeticionesByNombre(String nombre) {
+	public List<Competicion> getCompeticionesByNombre(String nombre)  throws SQLException{
 		final String hql = "from Competicion";
 		final List<Competicion> competiciones = session.createQuery(hql).list();
 		List<Competicion> res = new ArrayList();
@@ -93,83 +93,83 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 	}
 	
 	@Override
-	public void insertOrUpdateCompeticion(Competicion competicion) {
+	public void insertOrUpdateCompeticion(Competicion competicion)  throws SQLException{
 		Transaction t = session.beginTransaction();
 		session.saveOrUpdate(competicion);
 		t.commit();
 	}
 	
 	@Override
-	public List<Competicion> getCompeticiones() {
+	public List<Competicion> getCompeticiones()  throws SQLException{
 		final String hql = "from Competicion";
 		final List<Competicion> res = session.createQuery(hql).list();
 		return res;
 	}
 	
 	@Override
-	public void deleteCompeticionById(int id) {
+	public void deleteCompeticionById(int id)  throws SQLException{
 		Transaction t = session.beginTransaction();
 		session.delete(getCompeticionById(id));
 		t.commit();
 	}
 	
 	@Override
-	public Posicion getPosicionById(int id) {
+	public Posicion getPosicionById(int id)  throws SQLException{
 		return (Posicion) session.get(Posicion.class, id);
 	}
 	
 	@Override
-	public void insertOrUpdatePosicion(Posicion posicion) {
+	public void insertOrUpdatePosicion(Posicion posicion)  throws SQLException{
 		Transaction t = session.beginTransaction();
 		session.saveOrUpdate(posicion);
 		t.commit();
 	}
 	
 	@Override
-	public void deletePosicionById(int id) {
+	public void deletePosicionById(int id) throws SQLException {
 		Transaction t = session.beginTransaction();
 		session.delete(getPosicionById(id));
 		t.commit();
 	}
 	
 	@Override
-	public Estadistica getEstadisticaById(EstadisticaId id) {
+	public Estadistica getEstadisticaById(EstadisticaId id)  throws SQLException{
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public List<Estadistica> getEstadisticasByPartido(Partido partido) {
+	public List<Estadistica> getEstadisticasByPartido(Partido partido) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public void insertEstadistica(Estadistica estadistica) {
+	public void insertEstadistica(Estadistica estadistica) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void deleteEstadistica(EstadisticaId id) {
+	public void deleteEstadistica(EstadisticaId id) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public Partido getPartido(int id) {
+	public Partido getPartido(int id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public List<Partido> getPartidosByEquipo(Equipo equipo) {
+	public List<Partido> getPartidosByEquipo(Equipo equipo)  throws SQLException{
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public List<Partido> getPartidosByCompeticion(Competicion competicion) {
+	public List<Partido> getPartidosByCompeticion(Competicion competicion) throws SQLException {
 		final String hql = "from Partido";
 		List<Partido> lp = (session.createQuery(hql).list());
 		return lp.stream().filter((p) -> {
@@ -179,13 +179,13 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 	}
 	
 	@Override
-	public List<Partido> getPartidosBetweenFechas(Date fecha1, Date fecha2) {
+	public List<Partido> getPartidosBetweenFechas(Date fecha1, Date fecha2) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public void insertPartido(Partido partido) {
+	public void insertPartido(Partido partido)  throws SQLException{
 		Transaction t = session.beginTransaction();
 		session.saveOrUpdate(partido);
 		t.commit();
@@ -193,13 +193,13 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 	}
 	
 	@Override
-	public void borrarPartido(int id) {
+	public void borrarPartido(int id)  throws SQLException{
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public List<Partido> getEnfrentamientos(Equipo equipo1, Equipo equipo2) {
+	public List<Partido> getEnfrentamientos(Equipo equipo1, Equipo equipo2) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -217,14 +217,21 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 	}
 	
 	@Override
-	public void insertJugador(Jugador jugador) {
+	public void insertJugador(Jugador jugador) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void deleteJugador(int idJugador) {
+	public void deleteJugador(int idJugador) throws SQLException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Posicion> getPosiciones() throws SQLException {
+		final String hql = "from Posicion";
+		List<Posicion> lp = (session.createQuery(hql).list());
+		return lp;
 	}
 }

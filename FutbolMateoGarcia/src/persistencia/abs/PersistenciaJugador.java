@@ -12,9 +12,9 @@ public interface PersistenciaJugador {
 	
 	public Set<Jugador> getJugadoresEquipo(Equipo equipo) throws SQLException;
 	
-	public void insertJugador(Jugador jugador);
+	public void insertJugador(Jugador jugador) throws SQLException;
 	
-	public void deleteJugador(int idJugador);
+	public void deleteJugador(int idJugador) throws SQLException;
 	
 	
 	

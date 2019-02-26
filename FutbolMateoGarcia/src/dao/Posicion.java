@@ -48,5 +48,22 @@ public class Posicion implements java.io.Serializable {
 	public void setJugadors(Set jugadors) {
 		this.jugadors = jugadors;
 	}
+	
+	@Override
+	public String toString() {
+		return this.descripcion;
+	}
 
+	@Override
+	public boolean equals(Object other) {
+		if(other == null)
+			return false;
+		if (other == this)
+			return true;
+		if(! (other instanceof Posicion))
+			return false;
+		Posicion o = (Posicion) other;
+		return this.id == o.id;
+	}
+	
 }

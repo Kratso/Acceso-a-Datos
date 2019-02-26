@@ -5,6 +5,7 @@ package util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.HashSet;
 
 import dao.Competicion;
@@ -25,6 +27,12 @@ public final class Utilidades {
 	public static int DIA = 24;
 	
 	public static int MEDIO = 12;
+	
+	@FunctionalInterface
+	public static interface Validator<T>{
+		public boolean validate(T t, boolean actualizar);
+	}
+
 	
 	private Utilidades() {
 		throw new IllegalArgumentException();
@@ -53,7 +61,9 @@ public final class Utilidades {
 				lp.add(aux);
 			});
 		});
-		return lp;
+		Collections.shuffle(lp);
+		List<Partido> res = lp.stream().filter((p)->{return entreFechas(p.getFechaHora(), comp.getFechaComienzo(), comp.getFechaFin());}).collect(Collectors.toList());
+		return res;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -70,7 +80,7 @@ public final class Utilidades {
 			boolean jugado = p.getEstadisticas().size() != 0;
 			boolean isLocalGanador = p.getGolesLocal() > p.getGolesVisitante();
 			boolean isEmpate = p.getGolesLocal() == p.getGolesVisitante();
-			res.put(p.getEquipoByIdLocal(), jugado ? isLocalGanador ? res.get(p
+		/*	res.put(p.getEquipoByIdLocal(), jugado ? isLocalGanador ? res.get(p
 					.getEquipoByIdLocal()) == null ? 3
 							: res.get(p.getEquipoByIdLocal()) + 3
 					: isEmpate ? res.get(p.getEquipoByIdLocal()) == null ? 1
@@ -87,7 +97,7 @@ public final class Utilidades {
 							: res.get(p.getEquipoByIdVisitante()) == null ? 3
 									: res.get(p.getEquipoByIdVisitante()) + 3
 					: res.get(p.getEquipoByIdVisitante()) == null ? 0
-							: res.get(p.getEquipoByIdVisitante()));
+							: res.get(p.getEquipoByIdVisitante()));*/
 		});
 		List<Entry<Equipo, Integer>> a = new ArrayList<>(res.entrySet());
 		a.sort((e1, e2) -> {
@@ -112,7 +122,4 @@ public final class Utilidades {
 	}
 }
 
-@FunctionalInterface
-interface Validator{
-	public boolean validate(Serializable o);
-}
+
