@@ -106,23 +106,5 @@ public class Partido implements java.io.Serializable {
 	public void setEstadisticas(Set estadisticas) {
 		this.estadisticas = estadisticas;
 	}
-	
-	@Override
-	public String toString() {
-		return equipoByIdLocal.getNombre() + " - " + equipoByIdVisitante.getNombre();
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		if(o == null)
-			return false;
-		if(o==this)
-			return true;
-		if(! (o instanceof Partido))
-			return false;
-		
-		Partido other = (Partido) o;
-		return other.id == id;
-	}
 
 }

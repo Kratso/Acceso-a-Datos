@@ -73,22 +73,5 @@ public class Equipo implements java.io.Serializable {
 	public void setPartidosForIdLocal(Set partidosForIdLocal) {
 		this.partidosForIdLocal = partidosForIdLocal;
 	}
-	
-	@Override
-	public String toString() {
-		return this.nombre;
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		if(o == null)
-			return false;
-		if(o == this)
-			return true;
-		if(! (o instanceof Equipo))
-			return false;
-		Equipo other = (Equipo) o;
-		return other.id == id;
-	}
 
 }

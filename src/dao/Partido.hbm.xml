@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-ene-2019 8:52:33 by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="dao.Partido" table="partido" catalog="competicionesFutbol">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="equipoByIdLocal" class="dao.Equipo" fetch="select">
+            <column name="idLocal" not-null="true" />
+        </many-to-one>
+        <many-to-one name="equipoByIdVisitante" class="dao.Equipo" fetch="select">
+            <column name="idVisitante" not-null="true" />
+        </many-to-one>
+        <many-to-one name="competicion" class="dao.Competicion" fetch="select">
+            <column name="idComp" not-null="true" />
+        </many-to-one>
+        <property name="fechaHora" type="timestamp">
+            <column name="fechaHora" length="19" not-null="true" />
+        </property>
+        <property name="golesLocal" type="int">
+            <column name="golesLocal" not-null="true" />
+        </property>
+        <property name="golesVisitante" type="int">
+            <column name="golesVisitante" not-null="true" />
+        </property>
+        <set name="estadisticas" table="estadistica" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idPartido" not-null="true" />
+            </key>
+            <one-to-many class="dao.Estadistica" />
+        </set>
+    </class>
+</hibernate-mapping>

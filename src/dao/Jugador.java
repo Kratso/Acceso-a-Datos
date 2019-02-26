@@ -84,21 +84,4 @@ public class Jugador implements java.io.Serializable {
 		this.estadisticas = estadisticas;
 	}
 
-	@Override
-	public String toString() {
-		return this.getNombre();
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if(o == null)
-			return false;
-		if( o == this)
-			return true;
-		if(! (o instanceof Jugador))
-			return false;
-		Jugador other = (Jugador) o;
-		return other.licencia == licencia;
-	}
-
 }

@@ -83,17 +83,5 @@ public class Estadistica implements java.io.Serializable {
 	public void setTarjRojas(int tarjRojas) {
 		this.tarjRojas = tarjRojas;
 	}
-	
-	@Override
-	public boolean equals(Object o) {
-		if(o == null)
-			return false;
-		if(o == this)
-			return true;
-		if(! (o instanceof Estadistica))
-			return false;
-		Estadistica other = (Estadistica) o;
-		return other.id.equals(id);
-	}
 
 }
