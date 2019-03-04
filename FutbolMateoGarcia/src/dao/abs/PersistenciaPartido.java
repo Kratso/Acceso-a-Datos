@@ -1,4 +1,4 @@
-package persistencia.abs;
+package dao.abs;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -17,10 +17,8 @@ public interface PersistenciaPartido {
 	
 	List<Partido> getPartidosBetweenFechas(Date fecha1, Date fecha2) throws SQLException;
 	
-	void insertPartido(Partido partido) throws SQLException;
+	void insertOrUpdatePartido(Partido partido) throws SQLException;
 	
 	void borrarPartido(int id) throws SQLException;
 	
-	List<Partido> getEnfrentamientos(Equipo equipo1, Equipo equipo2) throws SQLException;
-
 }

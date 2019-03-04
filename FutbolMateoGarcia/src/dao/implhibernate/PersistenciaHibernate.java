@@ -1,5 +1,5 @@
 
-package persistencia.implhibernate;
+package dao.implhibernate;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,11 +15,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
-import org.hibernate.Transaction;
 
 import dao.*;
+import dao.abs.PersistenciaGeneral;
 
-import persistencia.abs.PersistenciaGeneral;
+import org.hibernate.Transaction;
+
 import util.Utilidades;
 
 @SuppressWarnings("all")
@@ -197,7 +198,7 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 	}
 
 	@Override
-	public void insertPartido(Partido partido) throws SQLException {
+	public void insertOrUpdatePartido(Partido partido) throws SQLException {
 		Transaction t = session.beginTransaction();
 		session.saveOrUpdate(partido);
 		t.commit();
@@ -210,7 +211,7 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 
 	}
 
-	@Override
+
 	public List<Partido> getEnfrentamientos(Equipo equipo1, Equipo equipo2) throws SQLException {
 		final String hql = "from Partido";
 		List<Partido> lp = (session.createQuery(hql).list());
@@ -275,6 +276,6 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 		res = res.stream().filter((p) -> {
 			return p.getJugador().equals(jugador);
 		}).collect(Collectors.toList());
-		return res;
+		return new HashSet(res);
 	}
 }

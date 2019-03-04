@@ -15,11 +15,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.HashSet;
 
 import dao.Competicion;
 import dao.Equipo;
 import dao.Partido;
+
+import java.util.HashSet;
 
 
 public final class Utilidades {
@@ -75,48 +76,22 @@ public final class Utilidades {
 		System.out.println(partidos.size());
 		partidos.stream().forEach(p -> System.out.println(p));
 		partidos.stream().forEach((p) -> {
-			System.out.println(p);
-			System.out.println(p.getId());
-			boolean jugado = p.getEstadisticas().size() != 0;
-			boolean isLocalGanador = p.getGolesLocal() > p.getGolesVisitante();
-			boolean isEmpate = p.getGolesLocal() == p.getGolesVisitante();
-		/*	res.put(p.getEquipoByIdLocal(), jugado ? isLocalGanador ? res.get(p
-					.getEquipoByIdLocal()) == null ? 3
-							: res.get(p.getEquipoByIdLocal()) + 3
-					: isEmpate ? res.get(p.getEquipoByIdLocal()) == null ? 1
-							: res.get(p.getEquipoByIdLocal()) + 1
-							: res.get(p.getEquipoByIdLocal()) == null ? 0
-									: res.get(p.getEquipoByIdLocal()) + 0
-					: res.get(p.getEquipoByIdLocal()) == null ? 0
-							: res.get(p.getEquipoByIdLocal()));
-			res.put(p.getEquipoByIdVisitante(), jugado ? isLocalGanador ? res
-					.get(p.getEquipoByIdVisitante()) == null ? 0
-							: res.get(p.getEquipoByIdVisitante()) + 0
-					: isEmpate ? res.get(p.getEquipoByIdVisitante()) == null ? 1
-							: res.get(p.getEquipoByIdVisitante()) + 1
-							: res.get(p.getEquipoByIdVisitante()) == null ? 3
-									: res.get(p.getEquipoByIdVisitante()) + 3
-					: res.get(p.getEquipoByIdVisitante()) == null ? 0
-							: res.get(p.getEquipoByIdVisitante()));*/
+		res.put(p.getEquipoByIdLocal(), 0);
+		res.put(p.getEquipoByIdVisitante(), 0);
 		});
-		List<Entry<Equipo, Integer>> a = new ArrayList<>(res.entrySet());
-		a.sort((e1, e2) -> {
-			Set<Partido> ep1 = new HashSet<>(e1.getKey()
-					.getPartidosForIdLocal());
-			ep1.addAll(e1.getKey().getPartidosForIdVisitante());
-			Set<Partido> ep2 = new HashSet<>(e2.getKey()
-					.getPartidosForIdLocal());
-			ep2.addAll(e2.getKey().getPartidosForIdVisitante());
-			int gol1 = 0;
-			gol1 += ep1.stream().mapToInt((es) -> {
-				return es.getEquipoByIdLocal().getId() == e1.getKey().getId()
-						? es.getGolesLocal()
-						: es.getGolesVisitante();
-			}).reduce(0, (c, b) -> {
-				return c + b;
-			});
-			return e1.getValue() - e2.getValue() == 0 ? 0
-					: e1.getValue() - e2.getValue();
+		partidos.stream().forEach((p) -> {
+			Integer punLocal = res.get(p.getEquipoByIdLocal());
+			Integer punVisitante = res.get(p.getEquipoByIdVisitante());
+			if(p.getGolesLocal() - p.getGolesVisitante() > 0) {
+				punLocal += 3;
+			}else if(p.getGolesLocal() - p.getGolesVisitante() < 0) {
+				punVisitante += 3;
+			} else {
+				punLocal += 1;
+				punVisitante += 1;
+			}
+			res.put(p.getEquipoByIdLocal(), punLocal);
+			res.put(p.getEquipoByIdVisitante(), punVisitante);
 		});
 		return res;
 	}

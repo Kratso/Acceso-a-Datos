@@ -1,4 +1,4 @@
-package persistencia.abs;
+package dao.abs;
 
 import java.sql.SQLException;
 import java.util.Set;
