@@ -31,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -75,11 +76,13 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 	};
 
 	public static Utilidades.Validator<Jugador> validarJugador = (j, b) -> {
-		Jugador jugador = new Jugador();
-		try {
-			jugador = MainGUI.con.getJugadorById(j.getLicencia());
-		} catch (SQLException e1) {
-			MainGUI.notificaError(null, "Jugador Inválido", e1, "Los datos del jugador son inválidos");
+		Jugador jugador = null;
+		if (b) {
+			try {
+				jugador = MainGUI.con.getJugadorById(j.getLicencia());
+			} catch (SQLException e1) {
+				MainGUI.notificaError(null, "Jugador Inválido", e1, "Los datos del jugador son inválidos");
+			}
 		}
 		List<Jugador> lj = new ArrayList<>();
 		try {
@@ -92,13 +95,13 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 		}).filter((j2) -> {
 			return j2.getDorsal() == j.getDorsal();
 		}).collect(Collectors.toList());
-		return (b && j == null) && lj.size() == 0 && j.getDorsal() > 0
+		return (b && jugador != null) && lj.size() == 0 && j.getDorsal() > 0
 				&& j.getNombre().matches("([a-zA-Z\\.\\-]+[ ]?)+");
 	};
 
 	public static Utilidades.Validator<Posicion> validarPosicion = (p, b) -> {
 
-		return p.getId() > 0;
+		return (p.getId() > 0) || b;
 	};
 
 	public static Utilidades.Validator<Partido> validarPartido = (p, b) -> {
@@ -201,7 +204,7 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 			comboBox_1.setVisible(false);
 			comboBox_2.setVisible(false);
 		}
-		if(t instanceof Partido) {
+		if (t instanceof Partido) {
 			descL.setVisible(false);
 			descTF.setVisible(false);
 			fechaFinDC.setVisible(false);
@@ -220,12 +223,11 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 			equiposL.setVisible(false);
 			equiposJugadoresList.setVisible(false);
 			comboBox.setModel(new DefaultComboBoxModel<Competicion>() {
-				
+
 				boolean selectionAllowed = true;
-				
-				
+
 				@Override
-				
+
 				public void setSelectedItem(Object anObject) {
 					if (!anObject.equals(MainGUI.competicionNoSeleccionable)) {
 						super.setSelectedItem(anObject);
@@ -237,7 +239,7 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 			});
 			comboBox.addItem(MainGUI.competicionNoSeleccionable);
 			try {
-				MainGUI.con.getCompeticiones().stream().forEach((comp)->{
+				MainGUI.con.getCompeticiones().stream().forEach((comp) -> {
 					comboBox.addItem(comp);
 				});
 			} catch (SQLException e) {
@@ -245,7 +247,6 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 			}
 		}
 	}
-
 
 	@SuppressWarnings("unchecked")
 	private void initComponents() {
@@ -256,6 +257,7 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 		descTF = new javax.swing.JTextField();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		equiposJugadoresList = new javax.swing.JList<>();
+		equiposJugadoresList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		equiposL = new javax.swing.JLabel();
 		fechaInicioDC = new com.toedter.calendar.JDateChooser();
 		guardarB = new javax.swing.JButton();
@@ -310,135 +312,125 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 		posicionesL.setText("Posición");
 
 		dorsalL.setText("Dorsal");
-		
+
 		comboBox = new JComboBox();
-		
+
 		lblCompeticin = new JLabel("Competici\u00F3n");
-		
+
 		comboBox_1 = new JComboBox();
-		
+
 		lblLocal = new JLabel("Local");
-		
+
 		comboBox_2 = new JComboBox();
-		
+
 		lblVisitante = new JLabel("Visitante");
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(layout.createSequentialGroup()
-					.addGap(24)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(layout.createSequentialGroup().addGap(24)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING)
 								.addGroup(layout.createSequentialGroup()
-									.addComponent(fechaIniL)
-									.addPreferredGap(ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
-									.addComponent(equiposL))
-								.addGroup(layout.createSequentialGroup()
-									.addGroup(layout.createParallelGroup(Alignment.LEADING)
-										.addComponent(fechaFinL, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-										.addComponent(fechaFinDC, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(layout.createParallelGroup(Alignment.LEADING)
-										.addComponent(posicionesL)
-										.addComponent(dorsalL))
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(posicionesCB, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(dorsalTF, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
-									.addGap(0, 17, Short.MAX_VALUE)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addGroup(layout.createSequentialGroup()
-									.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(descL)
-										.addComponent(nombreL))
-									.addGap(42)
-									.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(descTF)
-										.addComponent(nombreTF, GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)))
-								.addComponent(fechaInicioDC, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
-							.addGap(0, 36, Short.MAX_VALUE)))
-					.addContainerGap())
-				.addGroup(layout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(salirB)
-					.addPreferredGap(ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
-					.addComponent(guardarB)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(descartarB)
-					.addGap(76))
-				.addGroup(Alignment.LEADING, layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup()
-							.addGap(35)
-							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-							.addGap(55)
-							.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE))
-						.addGroup(layout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblCompeticin)
-							.addGap(108)
-							.addComponent(lblLocal)))
-					.addGap(18)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblVisitante)
-						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(21, Short.MAX_VALUE))
-		);
-		layout.setVerticalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCompeticin)
-						.addComponent(lblLocal)
-						.addComponent(lblVisitante))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(nombreL)
-						.addComponent(nombreTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(descL)
-						.addComponent(descTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-							.addGroup(layout.createSequentialGroup()
-								.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(posicionesCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(posicionesL))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(layout.createParallelGroup(Alignment.LEADING)
-									.addComponent(dorsalL)
-									.addComponent(dorsalTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-							.addGroup(layout.createSequentialGroup()
-								.addGroup(layout.createParallelGroup(Alignment.LEADING)
-									.addGroup(layout.createSequentialGroup()
-										.addComponent(fechaIniL)
+										.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+												.addGroup(layout.createSequentialGroup().addComponent(fechaIniL)
+														.addPreferredGap(ComponentPlacement.RELATED, 176,
+																Short.MAX_VALUE)
+														.addComponent(equiposL))
+												.addGroup(layout.createSequentialGroup()
+														.addGroup(layout.createParallelGroup(Alignment.LEADING)
+																.addComponent(fechaFinL, GroupLayout.PREFERRED_SIZE, 64,
+																		GroupLayout.PREFERRED_SIZE)
+																.addComponent(fechaFinDC, GroupLayout.PREFERRED_SIZE,
+																		126, GroupLayout.PREFERRED_SIZE))
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addGroup(layout.createParallelGroup(Alignment.LEADING)
+																.addComponent(posicionesL).addComponent(dorsalL))
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+																.addComponent(posicionesCB, 0, GroupLayout.DEFAULT_SIZE,
+																		Short.MAX_VALUE)
+																.addComponent(dorsalTF, GroupLayout.PREFERRED_SIZE, 85,
+																		GroupLayout.PREFERRED_SIZE))
+														.addGap(0, 17, Short.MAX_VALUE)))
 										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(fechaInicioDC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(14)
-										.addComponent(fechaFinL))
-									.addComponent(equiposL))
-								.addGap(9)
-								.addComponent(fechaFinDC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(guardarB)
-						.addComponent(descartarB)
-						.addComponent(salirB))
-					.addContainerGap())
-		);
+										.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 80,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(layout.createSequentialGroup().addGroup(layout
+										.createParallelGroup(Alignment.LEADING)
+										.addGroup(layout.createSequentialGroup()
+												.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+														.addComponent(descL).addComponent(nombreL))
+												.addGap(42)
+												.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+														.addComponent(descTF).addComponent(nombreTF,
+																GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)))
+										.addComponent(fechaInicioDC, GroupLayout.PREFERRED_SIZE, 126,
+												GroupLayout.PREFERRED_SIZE))
+										.addGap(0, 36, Short.MAX_VALUE)))
+						.addContainerGap())
+				.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(salirB)
+						.addPreferredGap(ComponentPlacement.RELATED, 105, Short.MAX_VALUE).addComponent(guardarB)
+						.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(descartarB).addGap(76))
+				.addGroup(Alignment.LEADING, layout.createSequentialGroup().addGroup(layout
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup().addGap(35)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+								.addGap(55)
+								.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(lblCompeticin)
+								.addGap(108).addComponent(lblLocal)))
+						.addGap(18)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(lblVisitante)
+								.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(21, Short.MAX_VALUE)));
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(lblCompeticin)
+								.addComponent(lblLocal).addComponent(lblVisitante))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(nombreL).addComponent(
+								nombreTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(descL).addComponent(
+								descTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addGroup(layout
+										.createParallelGroup(Alignment.TRAILING).addGroup(layout.createSequentialGroup()
+												.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+														.addComponent(posicionesCB, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(posicionesL))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(layout.createParallelGroup(Alignment.LEADING)
+														.addComponent(dorsalL).addComponent(
+																dorsalTF, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+										.addGroup(layout.createSequentialGroup().addGroup(layout
+												.createParallelGroup(Alignment.LEADING)
+												.addGroup(layout.createSequentialGroup().addComponent(fechaIniL)
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addComponent(fechaInicioDC, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addGap(14).addComponent(fechaFinL))
+												.addComponent(equiposL)).addGap(9).addComponent(fechaFinDC,
+														GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+														GroupLayout.PREFERRED_SIZE))))
+						.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(guardarB)
+								.addComponent(descartarB).addComponent(salirB))
+						.addContainerGap()));
 		getContentPane().setLayout(layout);
 
 		pack();
@@ -448,6 +440,18 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 		System.out.println("En guardar");
 		if (t instanceof Competicion) {
 			System.out.println("HOLA");
+			if(nombreTF.getText().equals("")) {
+				MainGUI.notificaError(this, "ERROR", null, "Campos vac�os");
+				return;
+			}
+			if(fechaFinDC.getDate() == null) {
+				MainGUI.notificaError(this, "ERROR", null, "Campos vac�os");
+				return;
+			}
+			if(fechaInicioDC.getDate() == null) {
+				MainGUI.notificaError(this, "ERROR", null, "Campos vac�os");
+				return;
+			}
 			Competicion compe = (Competicion) t;
 			compe.setNombre(nombreTF.getText());
 			compe.setFechaComienzo(fechaInicioDC.getDate());
@@ -476,6 +480,96 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 						"Los datos de la competicion son inválidos");
 			}
 		}
+		if(t instanceof Partido) {
+			Partido partido = (Partido) t;
+			if(((Competicion)comboBox.getSelectedItem()).equals(MainGUI.competicionNoSeleccionable)){
+				MainGUI.notificaError(this, "ERROR", null, "Campos vac�os");
+				return;
+			}
+			if(((Equipo)comboBox_1.getSelectedItem()).equals(MainGUI.equipoNoSeleccionable)) {
+				MainGUI.notificaError(this, "ERROR", null, "Campos vac�os");
+				return;
+			}
+			if(((Equipo)comboBox_2.getSelectedItem()).equals(MainGUI.equipoNoSeleccionable)) {
+				MainGUI.notificaError(this, "ERROR", null, "Campos vac�os");
+				return;
+			}
+			partido.setCompeticion((Competicion)comboBox.getSelectedItem());
+			partido.setEquipoByIdLocal((Equipo)comboBox_1.getSelectedItem());
+			partido.setEquipoByIdVisitante((Equipo)comboBox_2.getSelectedItem());
+
+			if (validarPartido.validate(partido, false)) {
+
+				try {
+					MainGUI.con.insertOrUpdatePartido(partido);
+				} catch (SQLException e1) {
+					MainGUI.notificaError(this, "ERROR", e1, "Ha ocurrido un error \n" + e1.getMessage());
+
+				}
+
+				MainGUI.notifica(this, "CREACIÓN CORRECTA", null, "Se ha creado el partido correctamente",
+						JOptionPane.INFORMATION_MESSAGE);
+				try {
+					padre.refrescarJCombo();
+				} catch (SQLException e) {
+					
+					MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error \n" + e.getMessage());
+				}
+				padre.setEnabled(true);
+				this.dispose();
+			} else {
+				MainGUI.notificaError(this, "Partido Inválida", null,
+						"Los datos del partido son inválidos");
+			}
+		}
+		if (t instanceof Jugador) {
+			Jugador jugador = (Jugador) t;
+			if(equiposJugadoresList.getSelectedValue() == null) {
+				MainGUI.notificaError(this, "ERROR", null, "Campos vac�os");
+				return;
+			}
+			if(nombreTF.getText().equals("")) {
+				MainGUI.notificaError(this, "ERROR", null, "Campos vac�os");
+				return;
+			}
+			if(dorsalTF.getText().equals("")) {
+				MainGUI.notificaError(this, "ERROR", null, "Campos vac�os");
+				return;
+			}
+			if(((Posicion)posicionesCB.getSelectedItem()).equals(MainGUI.posicionNoSeleccionable)) {
+				MainGUI.notificaError(this, "ERROR", null, "Campos vac�os");
+				return;
+			}
+			jugador.setNombre(nombreTF.getText());
+			jugador.setEquipo((Equipo)equiposJugadoresList.getSelectedValue());
+			try {
+			jugador.setDorsal(Integer.parseInt(dorsalTF.getText()));
+			}catch(Exception e) {
+				MainGUI.notificaError(this, "ERROR", null, "Datos invalidos");
+				return;
+			}
+			jugador.setPosicion((Posicion)posicionesCB.getSelectedItem());
+			try {
+				if(validarJugador.validate(jugador, false)) {
+					MainGUI.con.insertOrUpdateJugador(jugador);
+					padre.refrescarJCombo();
+					padre.setEnabled(true);
+					this.dispose();
+				} else {
+					MainGUI.notificaError(this, "Jugador Inválida", null,
+							"Los datos del jugador son inválidos");	
+					return;
+				}
+			} catch (Exception e) {
+				MainGUI.notificaError(this, "Jugador Inválida", null,
+						"Los datos del jugador son inválidos");			}
+		}
+		if (t instanceof Posicion) {
+			
+		}
+		if(t instanceof Equipo) {
+			
+		}
 
 	}
 
@@ -491,9 +585,8 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 		fechaFinDC.setDate(null);
 		fechaInicioDC.setDate(null);
 		nombreTF.setText("");
-		
-	}
 
+	}
 
 	public static void main(String args[]) {
 
@@ -567,22 +660,27 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 	private JComboBox comboBox_2;
 	private JLabel lblVisitante;
 	private JLabel lblCompeticin;
-	
+
 	public JComboBox getComboBox_1() {
 		return comboBox_1;
 	}
+
 	public JLabel getLblLocal() {
 		return lblLocal;
 	}
+
 	public JComboBox getComboBox() {
 		return comboBox;
 	}
+
 	public JComboBox getComboBox_2() {
 		return comboBox_2;
 	}
+
 	public JLabel getLblVisitante() {
 		return lblVisitante;
 	}
+
 	public JLabel getLblCompeticin() {
 		return lblCompeticin;
 	}
