@@ -1574,17 +1574,12 @@ public class MainGUI extends javax.swing.JFrame {
 	}
 
 	protected void restaurarCompeticion(Competicion selectedItem) {
-		Calendar c = Calendar.getInstance();
-		c.setTime(selectedItem.getFechaComienzo());
-		jDateChooser1.setCalendar(c);
-		jDateChooser2.setEnabled(true);
-		c.setTime(selectedItem.getFechaFin());
-		jDateChooser2.setCalendar(c);
-		jDateChooser1.setEnabled(true);
-
-		list.setEnabled(true);
-		jTextField1.setText(selectedItem.getNombre());
-		jTextField1.setEnabled(true);
+		try {
+			refrescarJCombo();
+		} catch (SQLException e) {
+			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+			
+		}
 
 	}
 
