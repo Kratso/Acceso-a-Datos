@@ -267,7 +267,7 @@ public class MainGUI extends javax.swing.JFrame {
 					itemSelectedJComboBox1((Equipo) jComboBox1.getSelectedItem());
 				} catch (SQLException e1) {
 					MainGUI.notificaError(null, "ERROR", e1, "Ha ocurrido un error\n" + e1.getMessage());
-					
+
 				}
 			}
 		});
@@ -1114,35 +1114,25 @@ public class MainGUI extends javax.swing.JFrame {
 		jButton2.setText("Clasificación por Goles");
 
 		comboBox_2 = new JComboBox();
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 
 		javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-		jPanel4Layout.setHorizontalGroup(
-			jPanel4Layout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(jPanel4Layout.createSequentialGroup()
-					.addGap(143)
-					.addComponent(comboBox_2, 0, 229, Short.MAX_VALUE)
-					.addGap(18)
-					.addComponent(jButton2)
-					.addGap(213))
-				.addGroup(Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-					.addGap(126)
-					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 423, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(203, Short.MAX_VALUE))
-		);
-		jPanel4Layout.setVerticalGroup(
-			jPanel4Layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(jPanel4Layout.createSequentialGroup()
-					.addGap(45)
-					.addGroup(jPanel4Layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jButton2)
-						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(41)
-					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(82, Short.MAX_VALUE))
-		);
-		
+		jPanel4Layout.setHorizontalGroup(jPanel4Layout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(jPanel4Layout.createSequentialGroup().addGap(143)
+						.addComponent(comboBox_2, 0, 229, Short.MAX_VALUE).addGap(18).addComponent(jButton2)
+						.addGap(213))
+				.addGroup(Alignment.LEADING,
+						jPanel4Layout.createSequentialGroup().addGap(126)
+								.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 423, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(203, Short.MAX_VALUE)));
+		jPanel4Layout.setVerticalGroup(jPanel4Layout.createParallelGroup(Alignment.LEADING).addGroup(jPanel4Layout
+				.createSequentialGroup().addGap(45)
+				.addGroup(jPanel4Layout.createParallelGroup(Alignment.BASELINE).addComponent(jButton2).addComponent(
+						comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addGap(41).addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
+				.addContainerGap(82, Short.MAX_VALUE)));
+
 		table = new JTable();
 		scrollPane_1.setViewportView(table);
 		jPanel4.setLayout(jPanel4Layout);
@@ -1168,7 +1158,7 @@ public class MainGUI extends javax.swing.JFrame {
 			new CreacionGUI<>(this, Equipo.class).setVisible(true);
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-			
+
 		}
 		this.setEnabled(false);
 
@@ -1243,7 +1233,7 @@ public class MainGUI extends javax.swing.JFrame {
 			refrescarJCombo();
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-			
+
 		}
 	}
 
@@ -1307,7 +1297,7 @@ public class MainGUI extends javax.swing.JFrame {
 			new CreacionGUI<>(this, Jugador.class).setVisible(true);
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-			
+
 		}
 		this.setEnabled(false);
 
@@ -1346,6 +1336,8 @@ public class MainGUI extends javax.swing.JFrame {
 	protected void selectedJList1(Partido selectedValue) {
 		if (selectedValue != null) {
 			jDateChooser3.setDate(selectedValue.getFechaHora());
+			jTextField4.setText(selectedValue.getGolesLocal() + "");
+			jTextField5.setText(selectedValue.getGolesVisitante() + "");
 			DefaultComboBoxModel<Equipo> model = new DefaultComboBoxModel<Equipo>() {
 
 				boolean selectionAllowed = true;
@@ -1697,6 +1689,12 @@ public class MainGUI extends javax.swing.JFrame {
 					JOptionPane.INFORMATION_MESSAGE) == JOptionPane.OK_OPTION) {
 				lp.stream().forEach((p) -> {
 					System.out.println(p);
+					try {
+						con.insertOrUpdatePartido(p);
+					} catch (SQLException e) {
+						MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+
+					}
 				});
 				compe.setPartidos(new HashSet<>(lp));
 				System.out.println(compe.getPartidos().size());
@@ -1717,7 +1715,7 @@ public class MainGUI extends javax.swing.JFrame {
 			new CreacionGUI<>(this, Competicion.class).setVisible(true);
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-			
+
 		}
 		this.setEnabled(false);
 	}
@@ -1727,7 +1725,7 @@ public class MainGUI extends javax.swing.JFrame {
 			new CreacionGUI<>(this, Posicion.class).setVisible(true);
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-			
+
 		}
 		this.setEnabled(false);
 	}
@@ -1778,7 +1776,7 @@ public class MainGUI extends javax.swing.JFrame {
 			refrescarJCombo();
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-			
+
 		}
 
 	}
@@ -1802,7 +1800,7 @@ public class MainGUI extends javax.swing.JFrame {
 			refrescarJCombo();
 		} catch (SQLException e1) {
 			MainGUI.notificaError(this, "ERROR", e1, "Ha ocurrido un error\n" + e1.getMessage());
-			
+
 		}
 	}
 
@@ -1811,7 +1809,7 @@ public class MainGUI extends javax.swing.JFrame {
 			new CreacionGUI<>(this, Partido.class).setVisible(true);
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-			
+
 		}
 		this.setEnabled(false);
 	}
