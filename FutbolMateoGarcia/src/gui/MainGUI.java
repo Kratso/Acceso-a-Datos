@@ -576,11 +576,12 @@ public class MainGUI extends javax.swing.JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!jTextField12.getText().equals("")) {
-					Posicion p = new Posicion();
+					Posicion p = (Posicion) jComboBox9.getSelectedItem();
 					p.setDescripcion(jTextField12.getText());
 					if (CreacionGUI.validarPosicion.validate(p, true))
 						try {
 							con.insertOrUpdatePosicion(p);
+							refrescarJCombo();
 						} catch (SQLException e1) {
 							MainGUI.notificaError(null, "ERROR AL GUARDAR", e1,
 									"Se ha producido un error\n" + e1.getMessage());
@@ -1147,7 +1148,7 @@ public class MainGUI extends javax.swing.JFrame {
 	protected void crearPartido() {
 		new CreacionGUI<>(this, Equipo.class).setVisible(true);
 		this.setEnabled(false);
-		
+
 	}
 
 	protected void borrarPartido() {
@@ -1283,7 +1284,9 @@ public class MainGUI extends javax.swing.JFrame {
 			Set<Jugador> lj = con.getJugadoresEquipo((Equipo) comboBox.getSelectedItem());
 			lj.addAll(con.getJugadoresEquipo((Equipo) comboBox_1.getSelectedItem()));
 			DefaultComboBoxModel<Jugador> model = new DefaultComboBoxModel<Jugador>();
-			model.addAll(lj);
+			lj.stream().forEach((j) -> {
+				model.addElement(j);
+			});
 			jComboBox4.setModel(model);
 		} catch (SQLException e) {
 			notificaError(this, "ERROR", e, "Ha ocurrido un error \n" + e.getMessage());
@@ -1295,7 +1298,9 @@ public class MainGUI extends javax.swing.JFrame {
 			Set<Jugador> lj = con.getJugadoresEquipo((Equipo) comboBox.getSelectedItem());
 			lj.addAll(con.getJugadoresEquipo((Equipo) comboBox_1.getSelectedItem()));
 			DefaultComboBoxModel<Jugador> model = new DefaultComboBoxModel<Jugador>();
-			model.addAll(lj);
+			lj.stream().forEach((j) -> {
+				model.addElement(j);
+			});
 			jComboBox4.setModel(model);
 		} catch (SQLException e) {
 			notificaError(this, "ERROR", e, "Ha ocurrido un error \n" + e.getMessage());
@@ -1733,12 +1738,14 @@ public class MainGUI extends javax.swing.JFrame {
 			return;
 		}
 		Equipo e = (Equipo) jComboBox1.getSelectedItem();
-		e.setNombre(jTextField10.getText());
-		try {
-			con.insertOrUpdateEquipo(e);
-		} catch (SQLException e1) {
-			MainGUI.notificaError(this, "ERROR", e1, "Ha ocurrido un error\n" + e1.getMessage());
+		if (!jTextField10.getText().equals("")) {
+			e.setNombre(jTextField10.getText());
+			try {
+				con.insertOrUpdateEquipo(e);
+			} catch (SQLException e1) {
+				MainGUI.notificaError(this, "ERROR", e1, "Ha ocurrido un error\n" + e1.getMessage());
 
+			}
 		}
 	}
 

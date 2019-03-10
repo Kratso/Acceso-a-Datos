@@ -328,121 +328,110 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 		lblVisitante = new JLabel("Visitante");
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addGap(24)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup().addGap(24)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING)
 								.addGroup(layout.createSequentialGroup()
-									.addComponent(fechaIniL)
-									.addPreferredGap(ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
-									.addComponent(equiposL))
-								.addGroup(layout.createSequentialGroup()
-									.addGroup(layout.createParallelGroup(Alignment.LEADING)
-										.addComponent(fechaFinL, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-										.addComponent(fechaFinDC, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(layout.createParallelGroup(Alignment.LEADING)
-										.addComponent(posicionesL)
-										.addComponent(dorsalL))
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(posicionesCB, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(dorsalTF, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
-									.addGap(0, 30, Short.MAX_VALUE)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addGroup(layout.createSequentialGroup()
-									.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(descL)
-										.addComponent(nombreL))
-									.addGap(42)
-									.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(descTF)
-										.addComponent(nombreTF, GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)))
-								.addComponent(fechaInicioDC, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
-							.addGap(0, 49, Short.MAX_VALUE)))
-					.addContainerGap())
-				.addGroup(layout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(salirB)
-					.addPreferredGap(ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
-					.addComponent(guardarB)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(descartarB)
-					.addGap(76))
-				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup()
-							.addGap(35)
-							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-							.addGap(55)
-							.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE))
-						.addGroup(layout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblCompeticin)
-							.addGap(108)
-							.addComponent(lblLocal)))
-					.addGap(18)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblVisitante)
-						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(21, Short.MAX_VALUE))
-		);
-		layout.setVerticalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCompeticin)
-						.addComponent(lblLocal)
-						.addComponent(lblVisitante))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(nombreL)
-						.addComponent(nombreTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(descL)
-						.addComponent(descTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-							.addGroup(layout.createSequentialGroup()
-								.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(posicionesCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(posicionesL))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(layout.createParallelGroup(Alignment.LEADING)
-									.addComponent(dorsalL)
-									.addComponent(dorsalTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-							.addGroup(layout.createSequentialGroup()
-								.addGroup(layout.createParallelGroup(Alignment.LEADING)
-									.addGroup(layout.createSequentialGroup()
-										.addComponent(fechaIniL)
+										.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+												.addGroup(layout.createSequentialGroup().addComponent(fechaIniL)
+														.addPreferredGap(ComponentPlacement.RELATED, 189,
+																Short.MAX_VALUE)
+														.addComponent(equiposL))
+												.addGroup(layout.createSequentialGroup()
+														.addGroup(layout.createParallelGroup(Alignment.LEADING)
+																.addComponent(fechaFinL, GroupLayout.PREFERRED_SIZE, 64,
+																		GroupLayout.PREFERRED_SIZE)
+																.addComponent(fechaFinDC, GroupLayout.PREFERRED_SIZE,
+																		126, GroupLayout.PREFERRED_SIZE))
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addGroup(layout.createParallelGroup(Alignment.LEADING)
+																.addComponent(posicionesL).addComponent(dorsalL))
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+																.addComponent(posicionesCB, 0, GroupLayout.DEFAULT_SIZE,
+																		Short.MAX_VALUE)
+																.addComponent(dorsalTF, GroupLayout.PREFERRED_SIZE, 85,
+																		GroupLayout.PREFERRED_SIZE))
+														.addGap(0, 30, Short.MAX_VALUE)))
 										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(fechaInicioDC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(14)
-										.addComponent(fechaFinL))
-									.addComponent(equiposL))
-								.addGap(9)
-								.addComponent(fechaFinDC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(guardarB)
-						.addComponent(descartarB)
-						.addComponent(salirB))
-					.addContainerGap())
-		);
+										.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 80,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(layout.createSequentialGroup().addGroup(layout
+										.createParallelGroup(Alignment.LEADING)
+										.addGroup(layout.createSequentialGroup()
+												.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+														.addComponent(descL).addComponent(nombreL))
+												.addGap(42)
+												.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+														.addComponent(descTF).addComponent(nombreTF,
+																GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)))
+										.addComponent(fechaInicioDC, GroupLayout.PREFERRED_SIZE, 126,
+												GroupLayout.PREFERRED_SIZE))
+										.addGap(0, 49, Short.MAX_VALUE)))
+						.addContainerGap())
+				.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(salirB)
+						.addPreferredGap(ComponentPlacement.RELATED, 118, Short.MAX_VALUE).addComponent(guardarB)
+						.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(descartarB).addGap(76))
+				.addGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup().addGap(35)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+								.addGap(55)
+								.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(lblCompeticin)
+								.addGap(108).addComponent(lblLocal)))
+						.addGap(18)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(lblVisitante)
+								.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(21, Short.MAX_VALUE)));
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(lblCompeticin)
+								.addComponent(lblLocal).addComponent(lblVisitante))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(nombreL).addComponent(
+								nombreTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(descL).addComponent(
+								descTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addGroup(layout
+										.createParallelGroup(Alignment.TRAILING).addGroup(layout.createSequentialGroup()
+												.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+														.addComponent(posicionesCB, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(posicionesL))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(layout.createParallelGroup(Alignment.LEADING)
+														.addComponent(dorsalL).addComponent(
+																dorsalTF, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+										.addGroup(layout.createSequentialGroup().addGroup(layout
+												.createParallelGroup(Alignment.LEADING)
+												.addGroup(layout.createSequentialGroup().addComponent(fechaIniL)
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addComponent(fechaInicioDC, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addGap(14).addComponent(fechaFinL))
+												.addComponent(equiposL)).addGap(9).addComponent(fechaFinDC,
+														GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+														GroupLayout.PREFERRED_SIZE))))
+						.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(guardarB)
+								.addComponent(descartarB).addComponent(salirB))
+						.addContainerGap()));
 		getContentPane().setLayout(layout);
 
 		pack();
@@ -575,7 +564,7 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 			}
 		}
 		if (t instanceof Posicion) {
-			if(descTF.getText().equals("")) {
+			if (descTF.getText().equals("")) {
 				MainGUI.notificaError(this, "ERROR", null, "Campos vacíos");
 				return;
 			}
@@ -596,7 +585,20 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 			}
 		}
 		if (t instanceof Equipo) {
+			try {
+				
+				if (nombreTF.getText().equals("")) {
+					MainGUI.notificaError(this, "ERROR", null, "Campos vacíos");
+					return;
+				}
+				Equipo e = new Equipo(nombreTF.getText());
+				if (validarEquipo.validate(e, false)) {
+					MainGUI.con.insertOrUpdateEquipo(e);
+				}
+			} catch (SQLException e1) {
+				MainGUI.notificaError(this, "ERROR", e1, "Ha ocurrido un error\n" + e1.getMessage());
 
+			}
 		}
 
 	}
