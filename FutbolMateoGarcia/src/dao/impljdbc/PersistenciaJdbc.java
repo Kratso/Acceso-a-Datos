@@ -345,11 +345,10 @@ public class PersistenciaJdbc implements PersistenciaGeneral {
 
 	@Override
 	public void deleteEstadistica(EstadisticaId id) throws SQLException {
-		
 
 	}
 
-	public Jugador getJugadorSimple(int id) throws  SQLException {
+	public Jugador getJugadorSimple(int id) throws SQLException {
 		String sql = "SELECT * FROM jugador WHERE licencia = '" + id + "'";
 		ResultSet rs = con.createStatement().executeQuery(sql);
 		Jugador j = new Jugador();
@@ -359,7 +358,7 @@ public class PersistenciaJdbc implements PersistenciaGeneral {
 			j.setPosicion(getPosicionById(rs.getInt(3)));
 			j.setNombre(rs.getString(4));
 			j.setDorsal(rs.getInt(5));
-			
+
 		}
 		return j;
 	}
@@ -404,8 +403,8 @@ public class PersistenciaJdbc implements PersistenciaGeneral {
 		ResultSet rs = con.createStatement().executeQuery(sql);
 		if (rs.next()) {
 			sql = "UPDATE jugador SET nombre = '" + jugador.getNombre() + "', dorsal = " + jugador.getDorsal()
-					+ ", idEquipo = " + jugador.getEquipo().getId() + ", id posicion = "
-					+ jugador.getPosicion().getId() + " WHERE licencia = " + jugador.getLicencia();
+					+ ", idEquipo = " + jugador.getEquipo().getId() + ", id posicion = " + jugador.getPosicion().getId()
+					+ " WHERE licencia = " + jugador.getLicencia();
 
 		} else {
 			int time = (int) (System.currentTimeMillis() % 10000000);
@@ -418,7 +417,6 @@ public class PersistenciaJdbc implements PersistenciaGeneral {
 
 	@Override
 	public void deleteJugador(int idJugador) throws SQLException {
-		
 
 	}
 
@@ -426,7 +424,7 @@ public class PersistenciaJdbc implements PersistenciaGeneral {
 		Partido p = null;
 		String sql = "SELECT * from partido WHERE id = '" + id + "'";
 		ResultSet rs = con.createStatement().executeQuery(sql);
-		if(rs.next()) {
+		if (rs.next()) {
 			p = new Partido();
 			p.setId(id);
 			p.setEquipoByIdLocal(getEquipoSimple(rs.getInt(2)));
@@ -444,7 +442,7 @@ public class PersistenciaJdbc implements PersistenciaGeneral {
 		Partido p = null;
 		String sql = "SELECT * from partido WHERE id = '" + id + "'";
 		ResultSet rs = con.createStatement().executeQuery(sql);
-		if(rs.next()) {
+		if (rs.next()) {
 			p = new Partido();
 			p.setId(id);
 			p.setEquipoByIdLocal(getEquipoSimple(rs.getInt(2)));
@@ -461,10 +459,11 @@ public class PersistenciaJdbc implements PersistenciaGeneral {
 	@Override
 	public List<Partido> getPartidosByEquipo(Equipo equipo) throws SQLException {
 		Partido p = null;
-		String sql = "SELECT * from partido WHERE idEquipoLocal = '" + equipo.getId() + "' OR idEquipoVisitante = '" + equipo.getId() + "'";
+		String sql = "SELECT * from partido WHERE idEquipoLocal = '" + equipo.getId() + "' OR idEquipoVisitante = '"
+				+ equipo.getId() + "'";
 		ResultSet rs = con.createStatement().executeQuery(sql);
 		List<Partido> lp = new ArrayList<>();
-		if(rs.next()) {
+		if (rs.next()) {
 			p = new Partido();
 			p.setId(rs.getInt(1));
 			p.setEquipoByIdLocal(getEquipoSimple(rs.getInt(2)));
@@ -485,7 +484,7 @@ public class PersistenciaJdbc implements PersistenciaGeneral {
 		String sql = "SELECT * from partido WHERE idCompeticion = '" + competicion.getId() + "'";
 		ResultSet rs = con.createStatement().executeQuery(sql);
 		List<Partido> lp = new ArrayList<>();
-		if(rs.next()) {
+		if (rs.next()) {
 			p = new Partido();
 			p.setId(rs.getInt(1));
 			p.setEquipoByIdLocal(getEquipoSimple(rs.getInt(2)));
@@ -514,10 +513,9 @@ public class PersistenciaJdbc implements PersistenciaGeneral {
 
 	@Override
 	public void borrarPartido(int id) throws SQLException {
-		// TODO Auto-generated method stub
-
+		String sql = "DELETE FROM partido WHERE id='" + id + "'";
+		con.createStatement().executeUpdate(sql);
 	}
-
 
 	@Override
 	public List<Posicion> getPosiciones() throws SQLException {

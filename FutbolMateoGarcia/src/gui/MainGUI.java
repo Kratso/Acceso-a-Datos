@@ -323,6 +323,10 @@ public class MainGUI extends javax.swing.JFrame {
 			}
 		});
 		jButton9 = new javax.swing.JButton();
+		jButton9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		jPanel3 = new javax.swing.JPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jList1 = new javax.swing.JList<>();
@@ -379,7 +383,6 @@ public class MainGUI extends javax.swing.JFrame {
 				guardarEstadistica();
 			}
 		});
-		jButton11.setEnabled(false);
 		jButton12 = new javax.swing.JButton();
 		jButton12.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -387,7 +390,7 @@ public class MainGUI extends javax.swing.JFrame {
 					refrescarJCombo();
 				} catch (SQLException e1) {
 					MainGUI.notificaError(null, "ERROR", e1, "Ha ocurrido un error\n" + e1.getMessage());
-					
+
 				}
 			}
 		});
@@ -876,7 +879,14 @@ public class MainGUI extends javax.swing.JFrame {
 		JButton btnSeleccionar_1 = new JButton("seleccionar");
 		btnSeleccionar_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cargarEstadisticasJugador((Jugador)jComboBox4.getSelectedItem(), (Partido)jList1.getSelectedValue());
+				cargarEstadisticasJugador((Jugador) jComboBox4.getSelectedItem(), (Partido) jList1.getSelectedValue());
+			}
+		});
+
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				borrarPartido();
 			}
 		});
 
@@ -918,7 +928,9 @@ public class MainGUI extends javax.swing.JFrame {
 																		Short.MAX_VALUE)))
 												.addGroup(jPanel3Layout.createSequentialGroup().addGap(100)
 														.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
-																.addComponent(jButton13)
+																.addGroup(jPanel3Layout.createSequentialGroup()
+																		.addComponent(jButton13).addGap(18)
+																		.addComponent(btnBorrar))
 																.addGroup(jPanel3Layout.createSequentialGroup()
 																		.addComponent(jButton11).addGap(18)
 																		.addComponent(jButton12)))))
@@ -952,7 +964,7 @@ public class MainGUI extends javax.swing.JFrame {
 														.addPreferredGap(ComponentPlacement.RELATED)
 														.addComponent(jTextField5, GroupLayout.PREFERRED_SIZE, 39,
 																GroupLayout.PREFERRED_SIZE)))
-												.addPreferredGap(ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+												.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
 												.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
 														.addGroup(jPanel3Layout
 																.createParallelGroup(Alignment.LEADING, false)
@@ -1073,8 +1085,13 @@ public class MainGUI extends javax.swing.JFrame {
 																										.addComponent(
 																												jButton12))
 																								.addGap(18)
-																								.addComponent(
-																										jButton13))
+																								.addGroup(jPanel3Layout
+																										.createParallelGroup(
+																												Alignment.BASELINE)
+																										.addComponent(
+																												jButton13)
+																										.addComponent(
+																												btnBorrar)))
 																						.addComponent(jCheckBox1)))
 																		.addComponent(jDateChooser3,
 																				GroupLayout.PREFERRED_SIZE,
@@ -1126,34 +1143,45 @@ public class MainGUI extends javax.swing.JFrame {
 		pack();
 	}
 
+	protected void borrarPartido() {
+		if ((JOptionPane.showConfirmDialog(this,
+				"Esta operación es irreversible y podría tener consecuencias irreparables. ¿Dese continuar?") == JOptionPane.OK_OPTION))
+			try {
+				con.borrarPartido(jList1.getSelectedValue().getId());
+			} catch (SQLException e) {
+				MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+
+			}
+	}
+
 	int golesUlt = 0;
-	
+
 	protected void guardarEstadistica() {
 		Partido partido = jList1.getSelectedValue();
-		if(partido == null)
+		if (partido == null)
 			return;
 		Equipo local = partido.getEquipoByIdLocal();
 		Equipo visitante = partido.getEquipoByIdVisitante();
 		int golesLocal = partido.getGolesLocal();
 		int golesVisitante = partido.getGolesVisitante();
 		Date fecha = jDateChooser3.getDate();
-		
-		if(fecha==null)
+
+		if (fecha == null)
 			return;
-		if(jTextField7.isEnabled()) {
+		if (jTextField7.isEnabled()) {
 			try {
-				Jugador j = ((Jugador)jComboBox4.getSelectedItem());
+				Jugador j = ((Jugador) jComboBox4.getSelectedItem());
 				Estadistica stat = con.getEstadisticaById(new EstadisticaId(partido.getId(), j.getLicencia()));
-				
-				if(j.getEquipo().equals(local))
+
+				if (j.getEquipo().equals(local))
 					partido.setGolesLocal(Integer.parseInt(jTextField7.getText()));
 				else
 					partido.setGolesVisitante(Integer.parseInt(jTextField7.getText()));
 				stat.setFaltas(Integer.parseInt(jTextField8.getText()));
 				stat.setGoles(Integer.parseInt(jTextField7.getText()));
-				stat.setTarjAmarillas(Integer.parseInt((String)jComboBox5.getSelectedItem()));
-				stat.setTarjRojas(jCheckBox1.isSelected()?0:1);
-				
+				stat.setTarjAmarillas(Integer.parseInt((String) jComboBox5.getSelectedItem()));
+				stat.setTarjRojas(jCheckBox1.isSelected() ? 0 : 1);
+
 				con.insertOrUpdateEstadistica(stat);
 			} catch (Exception e) {
 				MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
@@ -1165,12 +1193,12 @@ public class MainGUI extends javax.swing.JFrame {
 				return;
 			}
 		}
-		if(CreacionGUI.validarPartido.validate(partido, true)) {
+		if (CreacionGUI.validarPartido.validate(partido, true)) {
 			try {
 				con.insertOrUpdatePartido(partido);
 			} catch (SQLException e) {
 				MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-				
+
 			}
 		} else {
 			partido.setEquipoByIdLocal(local);
@@ -1180,17 +1208,18 @@ public class MainGUI extends javax.swing.JFrame {
 			partido.setGolesVisitante(golesVisitante);
 			MainGUI.notificaError(this, "ERROR", null, "Datos inválidos");
 		}
-		
+
 	}
 
 	protected void cargarEstadisticasJugador(Jugador selectedItem, Partido selectedValue) {
 		try {
-			Estadistica stat = con.getEstadisticaById(new EstadisticaId(selectedValue.getId(), selectedItem.getLicencia()));
+			Estadistica stat = con
+					.getEstadisticaById(new EstadisticaId(selectedValue.getId(), selectedItem.getLicencia()));
 			jTextField7.setEnabled(true);
 			jTextField8.setEnabled(true);
 			jComboBox5.setEnabled(true);
 			jCheckBox1.setEnabled(true);
-			if(stat != null) {
+			if (stat != null) {
 				golesUlt = stat.getGoles();
 				jTextField7.setText(stat.getGoles() + "");
 				jTextField8.setText(stat.getFaltas() + "");
@@ -1200,10 +1229,10 @@ public class MainGUI extends javax.swing.JFrame {
 				golesUlt = 0;
 				jComboBox5.setSelectedIndex(0);
 			}
-			
+
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-			
+
 		}
 	}
 
@@ -1369,7 +1398,6 @@ public class MainGUI extends javax.swing.JFrame {
 			jTextField8.setEnabled(false);
 			jComboBox5.setEnabled(false);
 			jCheckBox1.setEnabled(false);
-			jButton11.setEnabled(false);
 			jButton12.setEnabled(false);
 			jDateChooser3.setEnabled(false);
 			jButton13.setEnabled(false);
@@ -1391,7 +1419,6 @@ public class MainGUI extends javax.swing.JFrame {
 
 	protected void jComboBox9Selected(Posicion selectedItem) {
 		if (selectedItem.equals(posicionNoSeleccionable)) {
-			crearB2.setEnabled(false);
 			jButton3.setEnabled(false);
 			button.setEnabled(false);
 			jTextField12.setEnabled(false);
@@ -1480,10 +1507,8 @@ public class MainGUI extends javax.swing.JFrame {
 			jTextField10.setEnabled(false);
 			jButton7.setEnabled(false);
 			jButton8.setEnabled(false);
-			jButton9.setEnabled(false);
 			jButton10.setEnabled(false);
 			jButton6.setEnabled(false);
-			jButton5.setEnabled(false);
 			jList2.setEnabled(false);
 			jTextField9.setEnabled(false);
 			jTextField11.setEnabled(false);
@@ -1578,7 +1603,7 @@ public class MainGUI extends javax.swing.JFrame {
 			refrescarJCombo();
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-			
+
 		}
 
 	}
@@ -1660,25 +1685,25 @@ public class MainGUI extends javax.swing.JFrame {
 			return;
 		}
 		Jugador ori = new Jugador();
-		
+
 		Jugador j = jList2.getSelectedValue();
-		
+
 		ori.setNombre(j.getNombre());
 		ori.setDorsal(j.getDorsal());
 		ori.setPosicion(j.getPosicion());
 		ori.setEquipo(j.getEquipo());
-		
+
 		j.setDorsal(Integer.parseInt(jTextField11.getText()));
 		j.setNombre(jTextField9.getText());
-		j.setPosicion((Posicion)jComboBox6.getSelectedItem());
-		j.setEquipo((Equipo)jComboBox7.getSelectedItem());
-		
-		if(CreacionGUI.validarJugador.validate(j, true)) {
+		j.setPosicion((Posicion) jComboBox6.getSelectedItem());
+		j.setEquipo((Equipo) jComboBox7.getSelectedItem());
+
+		if (CreacionGUI.validarJugador.validate(j, true)) {
 			try {
 				con.insertOrUpdateJugador(j);
 			} catch (SQLException e) {
 				MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-				
+
 			}
 			((Equipo) jComboBox1.getSelectedItem()).getJugadors().remove(j);
 			j.getEquipo().getJugadors().add(j);
@@ -1686,9 +1711,9 @@ public class MainGUI extends javax.swing.JFrame {
 				refrescarJCombo();
 			} catch (SQLException e) {
 				MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
-				
+
 			}
-		}else {
+		} else {
 			j.setDorsal(ori.getDorsal());
 			j.setNombre(ori.getNombre());
 			j.setEquipo(ori.getEquipo());

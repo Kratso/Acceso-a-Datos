@@ -207,8 +207,9 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 
 	@Override
 	public void borrarPartido(int id) throws SQLException {
-		// TODO Auto-generated method stub
-
+		Transaction t = session.beginTransaction();
+		session.delete(session.get(Partido.class, id));
+		t.commit();
 	}
 
 
