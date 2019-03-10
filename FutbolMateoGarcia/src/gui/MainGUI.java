@@ -325,6 +325,7 @@ public class MainGUI extends javax.swing.JFrame {
 		jButton9 = new javax.swing.JButton();
 		jButton9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				crearPartido();
 			}
 		});
 		jPanel3 = new javax.swing.JPanel();
@@ -1143,6 +1144,12 @@ public class MainGUI extends javax.swing.JFrame {
 		pack();
 	}
 
+	protected void crearPartido() {
+		new CreacionGUI<>(this, Equipo.class).setVisible(true);
+		this.setEnabled(false);
+		
+	}
+
 	protected void borrarPartido() {
 		if ((JOptionPane.showConfirmDialog(this,
 				"Esta operación es irreversible y podría tener consecuencias irreparables. ¿Dese continuar?") == JOptionPane.OK_OPTION))
@@ -1507,7 +1514,6 @@ public class MainGUI extends javax.swing.JFrame {
 			jTextField10.setEnabled(false);
 			jButton7.setEnabled(false);
 			jButton8.setEnabled(false);
-			jButton10.setEnabled(false);
 			jButton6.setEnabled(false);
 			jList2.setEnabled(false);
 			jTextField9.setEnabled(false);
@@ -1524,7 +1530,6 @@ public class MainGUI extends javax.swing.JFrame {
 			jTextField11.setEnabled(false);
 			jComboBox6.setEnabled(false);
 			jComboBox7.setEnabled(false);
-			jButton10.setEnabled(false);
 			jButton6.setEnabled(false);
 			jButton5.setEnabled(false);
 			jTextField10.setText(selectedItem.getNombre());
