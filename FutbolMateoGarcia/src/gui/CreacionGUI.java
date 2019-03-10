@@ -96,7 +96,7 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 		}).filter((j2) -> {
 			return j2.getDorsal() == j.getDorsal();
 		}).collect(Collectors.toList());
-		return (b && jugador != null) && lj.size() == 0 && j.getDorsal() > 0
+		return (b || jugador != null) && lj.size() == 0 && j.getDorsal() > 0
 				&& j.getNombre().matches("([a-zA-Z\\.\\-]+[ ]?)+");
 	};
 
@@ -553,10 +553,14 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 				MainGUI.notificaError(this, "ERROR", null, "Campos vacíos");
 				return;
 			}
+			if(fechaInicioDC.getDate() == null) {
+				MainGUI.notificaError(this, "ERROR", null, "Campos vacíos");
+				return;
+			}
 			partido.setCompeticion((Competicion) comboBox.getSelectedItem());
 			partido.setEquipoByIdLocal((Equipo) comboBox_1.getSelectedItem());
 			partido.setEquipoByIdVisitante((Equipo) comboBox_2.getSelectedItem());
-
+			partido.setFechaHora(fechaInicioDC.getDate());
 			if (validarPartido.validate(partido, false)) {
 
 				try {

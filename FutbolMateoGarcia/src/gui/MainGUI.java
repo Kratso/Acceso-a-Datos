@@ -263,7 +263,12 @@ public class MainGUI extends javax.swing.JFrame {
 		jComboBox1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				itemSelectedJComboBox1((Equipo) jComboBox1.getSelectedItem());
+				try {
+					itemSelectedJComboBox1((Equipo) jComboBox1.getSelectedItem());
+				} catch (SQLException e1) {
+					MainGUI.notificaError(null, "ERROR", e1, "Ha ocurrido un error\n" + e1.getMessage());
+					
+				}
 			}
 		});
 		jLabel1 = new javax.swing.JLabel();
@@ -1109,24 +1114,37 @@ public class MainGUI extends javax.swing.JFrame {
 		jButton2.setText("Clasificación por Goles");
 
 		comboBox_2 = new JComboBox();
-
-		table = new JTable();
-		table.setRowSelectionAllowed(false);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
 
 		javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-		jPanel4Layout.setHorizontalGroup(jPanel4Layout.createParallelGroup(Alignment.LEADING).addGroup(
-				Alignment.TRAILING,
-				jPanel4Layout.createSequentialGroup().addGap(143).addComponent(comboBox_2, 0, 184, Short.MAX_VALUE)
-						.addGap(18).addComponent(jButton2).addGap(213))
-				.addGroup(jPanel4Layout.createSequentialGroup().addGap(89)
-						.addComponent(table, GroupLayout.PREFERRED_SIZE, 503, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(160, Short.MAX_VALUE)));
-		jPanel4Layout.setVerticalGroup(jPanel4Layout.createParallelGroup(Alignment.LEADING).addGroup(jPanel4Layout
-				.createSequentialGroup().addGap(45)
-				.addGroup(jPanel4Layout.createParallelGroup(Alignment.BASELINE).addComponent(jButton2).addComponent(
-						comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGap(50).addComponent(table, GroupLayout.PREFERRED_SIZE, 280, GroupLayout.PREFERRED_SIZE)
-				.addContainerGap(87, Short.MAX_VALUE)));
+		jPanel4Layout.setHorizontalGroup(
+			jPanel4Layout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(jPanel4Layout.createSequentialGroup()
+					.addGap(143)
+					.addComponent(comboBox_2, 0, 229, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(jButton2)
+					.addGap(213))
+				.addGroup(Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+					.addGap(126)
+					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 423, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(203, Short.MAX_VALUE))
+		);
+		jPanel4Layout.setVerticalGroup(
+			jPanel4Layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(jPanel4Layout.createSequentialGroup()
+					.addGap(45)
+					.addGroup(jPanel4Layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(jButton2)
+						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(41)
+					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(82, Short.MAX_VALUE))
+		);
+		
+		table = new JTable();
+		scrollPane_1.setViewportView(table);
 		jPanel4.setLayout(jPanel4Layout);
 
 		jTabbedPane1.addTab("Informes", jPanel4);
@@ -1530,7 +1548,7 @@ public class MainGUI extends javax.swing.JFrame {
 	}
 
 	@SuppressWarnings(value = "all")
-	protected void itemSelectedJComboBox1(Equipo selectedItem) {
+	protected void itemSelectedJComboBox1(Equipo selectedItem) throws SQLException {
 		if (selectedItem.equals(equipoNoSeleccionable)) {
 			jTextField10.setEnabled(false);
 			jButton7.setEnabled(false);
@@ -1555,8 +1573,8 @@ public class MainGUI extends javax.swing.JFrame {
 			jButton5.setEnabled(false);
 			jTextField10.setText(selectedItem.getNombre());
 			DefaultListModel<Jugador> model = new DefaultListModel<Jugador>();
-
-			selectedItem.getJugadors().stream().forEach((j) -> {
+			Set<Jugador> setJugadors = con.getJugadoresEquipo(selectedItem);
+			setJugadors.stream().forEach((j) -> {
 				model.addElement((Jugador) j);
 			});
 			jList2.setModel(model);
@@ -2109,7 +2127,6 @@ public class MainGUI extends javax.swing.JFrame {
 	private JButton button_1;
 
 	private JComboBox comboBox_2;
-
 	private JTable table;
 
 	public JPanel getJPanel4() {
