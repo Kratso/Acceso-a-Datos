@@ -231,7 +231,7 @@ public class PersistenciaHibernate implements PersistenciaGeneral {
 
 	@Override
 	public Set<Jugador> getJugadoresEquipo(Equipo equipo) throws SQLException {
-		final String hql = "from Partido";
+		final String hql = "from Jugador";
 		Set<Jugador> lp = new HashSet((session.createQuery(hql).list()));
 		lp = lp.stream().filter((p) -> {
 			return p.getEquipo().equals(equipo);

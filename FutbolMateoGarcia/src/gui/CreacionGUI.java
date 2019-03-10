@@ -96,7 +96,7 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 		}).filter((j2) -> {
 			return j2.getDorsal() == j.getDorsal();
 		}).collect(Collectors.toList());
-		return (b || jugador != null) && lj.size() == 0 && j.getDorsal() > 0
+		return (b || jugador == null) && lj.size() == 0 && j.getDorsal() > 0
 				&& j.getNombre().matches("([a-zA-Z\\.\\-]+[ ]?)+");
 	};
 

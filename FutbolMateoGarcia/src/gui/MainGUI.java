@@ -1265,7 +1265,8 @@ public class MainGUI extends javax.swing.JFrame {
 				golesUlt = 0;
 				jComboBox5.setSelectedIndex(0);
 			}
-
+			jButton11.setEnabled(true);
+			jButton12.setEnabled(true);
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
 
