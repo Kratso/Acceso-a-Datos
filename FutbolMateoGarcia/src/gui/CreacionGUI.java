@@ -26,6 +26,7 @@ import org.hibernate.loader.custom.Return;
 import dao.*;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -117,7 +118,7 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 	}
 
 	@SuppressWarnings({ "unchecked", "serial" })
-	public CreacionGUI(MainGUI padre, Class<? extends T> c) {
+	public CreacionGUI(MainGUI padre, Class<? extends T> c) throws SQLException {
 		initComponents();
 		this.padre = padre;
 		try {
@@ -203,6 +204,30 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 			comboBox.setVisible(false);
 			comboBox_1.setVisible(false);
 			comboBox_2.setVisible(false);
+			posicionesCB.setModel(new DefaultComboBoxModel() {
+
+				boolean selectionAllowed = true;
+
+				@Override
+				public void setSelectedItem(Object anObject) {
+					if (!anObject.equals(MainGUI.posicionNoSeleccionable)) {
+						super.setSelectedItem(anObject);
+					} else if (selectionAllowed) {
+						selectionAllowed = false;
+						super.setSelectedItem(anObject);
+					}
+				}
+			});
+			List<Posicion> lp = MainGUI.con.getPosiciones();
+			lp.forEach((p)->{
+				posicionesCB.addItem(p);
+			});
+			List<Equipo> le = MainGUI.con.getListaEquipos();
+			DefaultListModel model = new DefaultListModel();
+			le.forEach((e)->{
+				model.addElement(e);
+			});
+			equiposJugadoresList.setModel(model);
 		}
 		if (t instanceof Partido) {
 			descL.setVisible(false);
@@ -222,6 +247,34 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 			dorsalTF.setVisible(false);
 			equiposL.setVisible(false);
 			equiposJugadoresList.setVisible(false);
+			comboBox_1.setModel(new DefaultComboBoxModel<Equipo>() {
+
+				boolean selectionAllowed = true;
+
+				@Override
+				public void setSelectedItem(Object anObject) {
+					if (!anObject.equals(MainGUI.equipoNoSeleccionable)) {
+						super.setSelectedItem(anObject);
+					} else if (selectionAllowed) {
+						selectionAllowed = false;
+						super.setSelectedItem(anObject);
+					}
+				}
+			});
+			comboBox_2.setModel(new DefaultComboBoxModel<Equipo>() {
+
+				boolean selectionAllowed = true;
+
+				@Override
+				public void setSelectedItem(Object anObject) {
+					if (!anObject.equals(MainGUI.equipoNoSeleccionable)) {
+						super.setSelectedItem(anObject);
+					} else if (selectionAllowed) {
+						selectionAllowed = false;
+						super.setSelectedItem(anObject);
+					}
+				}
+			});
 			comboBox.setModel(new DefaultComboBoxModel<Competicion>() {
 
 				boolean selectionAllowed = true;
@@ -236,6 +289,11 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 						super.setSelectedItem(anObject);
 					}
 				}
+			});
+			List<Equipo> le = MainGUI.con.getListaEquipos();
+			le.forEach((e)->{
+				comboBox_1.addItem(e);
+				comboBox_2.addItem(e);
 			});
 			comboBox.addItem(MainGUI.competicionNoSeleccionable);
 			try {
@@ -644,7 +702,12 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 
 			public void run() {
-				new CreacionGUI(null, Jugador.class).setVisible(true);
+				try {
+					new CreacionGUI(null, Jugador.class).setVisible(true);
+				} catch (SQLException e) {
+					MainGUI.notificaError(null, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+					
+				}
 			}
 		});
 	}
@@ -679,7 +742,7 @@ public class CreacionGUI<T> extends javax.swing.JFrame {
 
 	private javax.swing.JTextField nombreTF;
 
-	private javax.swing.JComboBox<String> posicionesCB;
+	private javax.swing.JComboBox<Posicion> posicionesCB;
 
 	private javax.swing.JLabel posicionesL;
 

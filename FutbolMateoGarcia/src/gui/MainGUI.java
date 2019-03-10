@@ -1146,7 +1146,12 @@ public class MainGUI extends javax.swing.JFrame {
 	}
 
 	protected void crearPartido() {
-		new CreacionGUI<>(this, Equipo.class).setVisible(true);
+		try {
+			new CreacionGUI<>(this, Equipo.class).setVisible(true);
+		} catch (SQLException e) {
+			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+			
+		}
 		this.setEnabled(false);
 
 	}
@@ -1216,7 +1221,12 @@ public class MainGUI extends javax.swing.JFrame {
 			partido.setGolesVisitante(golesVisitante);
 			MainGUI.notificaError(this, "ERROR", null, "Datos inválidos");
 		}
-
+		try {
+			refrescarJCombo();
+		} catch (SQLException e) {
+			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+			
+		}
 	}
 
 	protected void cargarEstadisticasJugador(Jugador selectedItem, Partido selectedValue) {
@@ -1274,7 +1284,12 @@ public class MainGUI extends javax.swing.JFrame {
 	}
 
 	protected void crearJugador() {
-		new CreacionGUI<>(this, Jugador.class).setVisible(true);
+		try {
+			new CreacionGUI<>(this, Jugador.class).setVisible(true);
+		} catch (SQLException e) {
+			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+			
+		}
 		this.setEnabled(false);
 
 	}
@@ -1311,6 +1326,7 @@ public class MainGUI extends javax.swing.JFrame {
 	@SuppressWarnings(value = "all")
 	protected void selectedJList1(Partido selectedValue) {
 		if (selectedValue != null) {
+			jDateChooser3.setDate(selectedValue.getFechaHora());
 			DefaultComboBoxModel<Equipo> model = new DefaultComboBoxModel<Equipo>() {
 
 				boolean selectionAllowed = true;
@@ -1678,12 +1694,22 @@ public class MainGUI extends javax.swing.JFrame {
 	}
 
 	private void crearBActionPerformed(java.awt.event.ActionEvent evt) {
-		new CreacionGUI<>(this, Competicion.class).setVisible(true);
+		try {
+			new CreacionGUI<>(this, Competicion.class).setVisible(true);
+		} catch (SQLException e) {
+			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+			
+		}
 		this.setEnabled(false);
 	}
 
 	private void crearB2ActionPerformed(java.awt.event.ActionEvent evt) {
-		new CreacionGUI<>(this, Posicion.class).setVisible(true);
+		try {
+			new CreacionGUI<>(this, Posicion.class).setVisible(true);
+		} catch (SQLException e) {
+			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+			
+		}
 		this.setEnabled(false);
 	}
 
@@ -1729,6 +1755,12 @@ public class MainGUI extends javax.swing.JFrame {
 			j.setEquipo(ori.getEquipo());
 			j.setPosicion(ori.getPosicion());
 		}
+		try {
+			refrescarJCombo();
+		} catch (SQLException e) {
+			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+			
+		}
 
 	}
 
@@ -1747,10 +1779,21 @@ public class MainGUI extends javax.swing.JFrame {
 
 			}
 		}
+		try {
+			refrescarJCombo();
+		} catch (SQLException e1) {
+			MainGUI.notificaError(this, "ERROR", e1, "Ha ocurrido un error\n" + e1.getMessage());
+			
+		}
 	}
 
 	private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {
-		new CreacionGUI<>(this, Partido.class).setVisible(true);
+		try {
+			new CreacionGUI<>(this, Partido.class).setVisible(true);
+		} catch (SQLException e) {
+			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+			
+		}
 		this.setEnabled(false);
 	}
 
