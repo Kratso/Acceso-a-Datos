@@ -1126,7 +1126,60 @@ public class MainGUI extends javax.swing.JFrame {
 		pack();
 	}
 
+	int golesUlt = 0;
+	
 	protected void guardarEstadistica() {
+		Partido partido = jList1.getSelectedValue();
+		if(partido == null)
+			return;
+		Equipo local = partido.getEquipoByIdLocal();
+		Equipo visitante = partido.getEquipoByIdVisitante();
+		int golesLocal = partido.getGolesLocal();
+		int golesVisitante = partido.getGolesVisitante();
+		Date fecha = jDateChooser3.getDate();
+		
+		if(fecha==null)
+			return;
+		if(jTextField7.isEnabled()) {
+			try {
+				Jugador j = ((Jugador)jComboBox4.getSelectedItem());
+				Estadistica stat = con.getEstadisticaById(new EstadisticaId(partido.getId(), j.getLicencia()));
+				
+				if(j.getEquipo().equals(local))
+					partido.setGolesLocal(Integer.parseInt(jTextField7.getText()));
+				else
+					partido.setGolesVisitante(Integer.parseInt(jTextField7.getText()));
+				stat.setFaltas(Integer.parseInt(jTextField8.getText()));
+				stat.setGoles(Integer.parseInt(jTextField7.getText()));
+				stat.setTarjAmarillas(Integer.parseInt((String)jComboBox5.getSelectedItem()));
+				stat.setTarjRojas(jCheckBox1.isSelected()?0:1);
+				
+				con.insertOrUpdateEstadistica(stat);
+			} catch (Exception e) {
+				MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+				partido.setEquipoByIdLocal(local);
+				partido.setEquipoByIdVisitante(visitante);
+				partido.setGolesLocal(golesLocal);
+				partido.setGolesVisitante(golesVisitante);
+				partido.setFechaHora(fecha);
+				return;
+			}
+		}
+		if(CreacionGUI.validarPartido.validate(partido, true)) {
+			try {
+				con.insertOrUpdatePartido(partido);
+			} catch (SQLException e) {
+				MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
+				
+			}
+		} else {
+			partido.setEquipoByIdLocal(local);
+			partido.setEquipoByIdVisitante(visitante);
+			partido.setFechaHora(fecha);
+			partido.setGolesLocal(golesLocal);
+			partido.setGolesVisitante(golesVisitante);
+			MainGUI.notificaError(this, "ERROR", null, "Datos inválidos");
+		}
 		
 	}
 
@@ -1137,6 +1190,17 @@ public class MainGUI extends javax.swing.JFrame {
 			jTextField8.setEnabled(true);
 			jComboBox5.setEnabled(true);
 			jCheckBox1.setEnabled(true);
+			if(stat != null) {
+				golesUlt = stat.getGoles();
+				jTextField7.setText(stat.getGoles() + "");
+				jTextField8.setText(stat.getFaltas() + "");
+				jComboBox5.setSelectedIndex(stat.getTarjAmarillas());
+				jCheckBox1.setSelected(stat.getTarjRojas() != 0);
+			} else {
+				golesUlt = 0;
+				jComboBox5.setSelectedIndex(0);
+			}
+			
 		} catch (SQLException e) {
 			MainGUI.notificaError(this, "ERROR", e, "Ha ocurrido un error\n" + e.getMessage());
 			
@@ -1560,7 +1624,7 @@ public class MainGUI extends javax.swing.JFrame {
 		if (((Competicion) selectedItem).equals(competicionNoSeleccionable))
 			return;
 		Competicion compe = (Competicion) selectedItem;
-		if (compe.getPartidos().size() == 0) {
+		if (compe.getPartidos().size() == 0 && list.getSelectedValues().length > 0) {
 			System.out.println(list.getSelectedValuesList().size());
 			List<Partido> lp = Utilidades.generarCompeticion(list.getSelectedValuesList(), 24, compe);
 			if (notifica(this, "AVISO", null,
@@ -1797,6 +1861,10 @@ public class MainGUI extends javax.swing.JFrame {
 			jComboBox9.addItem(p);
 		});
 		// FIN COMBOS
+		crearB2.setEnabled(true);
+		jButton5.setEnabled(true);
+		jButton9.setEnabled(true);
+		jButton13.setEnabled(true);
 	}
 
 	private javax.swing.JButton crearB;
